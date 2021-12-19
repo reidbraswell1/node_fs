@@ -1,10 +1,12 @@
 //const http = require("http");
 import http from "http";
+import ejs from "ejs";
 
 const serverPort = 3000;
 
 export const server = http.createServer((req, res) => {
-  res.write("<h1>test</h1");
+  let html = ejs.render("<h1><%=heading%></h1>", {heading:"hello"});
+  res.write(html);
   res.end();
 });
 
