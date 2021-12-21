@@ -1,22 +1,12 @@
-import { readFile } from "./readFile.js";
-import { createFile } from "./createFile.js";
-import { deleteFile } from "./deleteFile";
 import server from "./server.js";
-const data = readFile('views/index.html')
-data.then(function (value)  {
-    console.log(`File contents:\n ${value}`);
-}).catch(function (error) {
-    console.log(error);
-});
-const create = createFile('views/test.html','<h1>Hello World</h1>');
-create.then(function (message) {
-    console.log(`${message}`)
-}).catch(function (error) {
-    console.log(`${error}`);
-});
-const del = deleteFile('views/test.html');
-del.then(function(message) {
-    console.log(message);
-}).catch(function(error) {
-    console.log(`${error}`);
-});
+import { testCreateFile, testDeleteFile, testReadFile, testUpdateFile } from "./test.js";
+
+
+const testFile = "views/test.html";
+const data = "<h1>Test H1</h1><h2>Test H2</h2>";
+const data2 = "<h3>Test H3</h3>";
+
+testCreateFile(testFile, data);
+testUpdateFile(testFile, data2);
+testReadFile(testFile);
+testDeleteFile(testFile);
