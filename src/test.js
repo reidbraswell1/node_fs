@@ -1,14 +1,18 @@
 // Testing functions 
-// const createFile = require("./createFile.js");
+// const cf = require("./createFile.js");
 import { createFile } from "./createFile.js";
 
+// const uf = require("./updateFile.js");
 import { updateFile } from "./updateFile.js";
 
-// const readFile = require("./readFile.js");
+// const rf = require("./readFile.js");
 import { readFile } from "./readFile.js";
 
-// const deleteFile = require("./deleteFile.js");
+// const df = require("./deleteFile.js");
 import { deleteFile } from "./deleteFile.js";
+
+// const rd = require("./readDirs")
+import { readDir } from "./readDirs.js";
 
 export function testCreateFile(testFile, data) {
     createFile(testFile, data)
@@ -41,5 +45,15 @@ export function testDeleteFile(testFile) {
         console.log(`${message}`);
     }).catch(function (error) {
         console.log(`${error}`);
+    });
+}
+
+export function testReadDirectories(path) {
+    console.log(`Path ${path}`);
+    readDir(path)
+    .then(function (message) {
+        console.log(`${message}`);
+    }).catch(function(error) {
+        console.log(error);
     });
 }
