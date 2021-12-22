@@ -48,7 +48,7 @@ export function testDeleteFile(testFile) {
     });
 }
 
-export function testReadDirectories(path) {
+export function testReadDirs(path) {
     console.log(`Path ${path}`);
     readDir(path)
     .then(function (message) {
