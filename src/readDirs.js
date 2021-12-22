@@ -7,7 +7,7 @@ export function readDir(path) {
         if (err) {
           reject(err);
         }
-        resolve(files);
+        resolve(`Read Directories: ${files}`);
       });
     } else {
         reject(`${dir} not found`);
