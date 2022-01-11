@@ -9,12 +9,19 @@ let dirPath = "scratchPad";
 
 export const server = http.createServer((req, res) => {
   const template = fs.readFileSync(`./views/index.ejs`, "utf-8");
-  let listing = readDirs(dirPath) + "Test";
-  console.log(`${listing}`);
-  console.log(typeof listing);
-  let html = ejs.render(template, { dirList: `Listing:${listing}Apple` });
-  res.write(html);
-  res.end();
+  readDir(dirPath)
+  .then(function (message) {
+    // Omit "Read Directories: " text
+    let listing = message.substring(message.indexOf(":")+2);
+    // Replace all commas with new lines
+    listing = listing.replace(/,/g,"\n");
+    let html = ejs.render(template, { dirPath: dirPath, dirList: listing });
+    res.write(html);
+    res.end();
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
 });
 
 server.listen(serverPort, function (callback) {
@@ -26,19 +33,3 @@ server.listen(serverPort, function (callback) {
   );
 });
 console.log(`Server running on port ${server.address().port}`);
-
-function readDirs(path) {
-  console.log(`Path ${path}`);
-  let dirs = "";
-  readDir(path)
-    .then(function (message) {
-      console.log(`${message}`);
-      dirs = message.substring(message.indexOf(":")+2);
-      console.log(dirs);
-      return dirs;
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-    //return dirs;
-}
