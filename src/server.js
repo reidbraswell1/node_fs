@@ -53,6 +53,11 @@ export const server = http.createServer((req, res) => {
         renderHomePage(req, res);
         console.log(`--- End Case ${urlToRoute} Route ---`);
         break;
+      case "/styles/indexStyle.css":
+        console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        indexStyle(req, res);
+        console.log(`--- End Case ${urlToRoute} Route ---`);
+        break;
     }
   });
 });
@@ -94,4 +99,17 @@ function renderHomePage(req, res) {
       //    res.end()
     })
     .catch(function (error) {});
+}
+
+// Serve stylesheet information for homepage
+function indexStyle(req, res) {
+  console.log(`--- Begin Function indexStyle() ---`);
+  const styleSheet = "indexStyle.css";
+
+  let fileStream = fs.createReadStream(`./styles/${styleSheet}`, "utf-8");
+  let css = fs.readFileSync(`./styles/${styleSheet}`, "utf-8");
+  res.writeHead(200, { "Content-Type": "text/css" });
+  res.write(css);
+  res.end();
+  console.log(`--- End Function indexStyle() ---`);
 }
