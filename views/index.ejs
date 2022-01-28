@@ -4,25 +4,31 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Node FS</title>
+    <link rel="stylesheet" href="styles/indexStyle.css" />
   </head>
   <body>
-    <label for="file-directory">Directory Listing: "<%=dirPath%>"</label>
-    <textarea name="file-directory"
-              id="file-directory"
-              cols="40" rows="10"><%=dirList%></textarea>
-    <form action="form-submission">
+    <div class="container">
+      <div>
+        <h1>Node File System</h1>
+      <label for="file-directory">Directory Listing: "<%=dirPath%>"</label>
+      <textarea name="file-directory" id="file-directory" cols="40" rows="10">
+<%=dirList%></textarea>
+      <form action="form-submission">
         <label for="file-name">File Name</label>
-        <input type="text" id="file-name" name="file-name">
+        <input type="text" id="file-name" name="file-name" />
         <label for="file-action">Action</label>
         <select name="file-action" id="file-action">
-            <option value="add">Add</option>
-            <option value="update">Update</option>
-            <option value="delete">Delete</option>
-            <option value="read">Read</option>
+          <option value="add">Add</option>
+          <option value="update">Update</option>
+          <option value="delete">Delete</option>
+          <option value="read">Read</option>
         </select>
-    </form>
-    <label for="file-contents">File Contents</label>
-    <textarea name="file-contents" id="file-contents" cols="30" rows="10"><<%=fileContents%></textarea>
+      </form>
+      <label for="file-contents">File Contents</label>
+      <textarea name="file-contents" id="file-contents" cols="30" rows="10">
+<%=fileContents%></textarea>
+      </div>
+    </div>
   </body>
 </html>
