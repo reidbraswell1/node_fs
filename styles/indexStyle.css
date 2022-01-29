@@ -1,5 +1,60 @@
+body {
+    font-size: 1.2rem;
+}
+
 .container {
     display: flex;
     text-align: center;
     justify-content: center;
+}
+
+.directory {
+    display: flex;
+    flex-direction: column;
+}
+
+textarea {
+    border: 1px solid blue;
+    color: green;
+    font-size: 1.1rem;
+}
+
+.green {
+    color: green;
+    font-size:1.2rem;
+}
+
+.formk {
+    display: flex;
+}
+
+.file-name {
+    display: flex;
+    flex-direction: column;
+}
+
+input { 
+    height: 1.6rem;
+    border: 1px solid blue;
+    font-size: 1.2rem;
+}
+
+.file-action {
+    display: flex;
+    flex-direction: column;
+}
+
+select {
+    height: 2rem;
+    font-size: 1.2rem;
+    border: 1px solid blue;
+}
+
+label {
+    align-self: flex-start;
+}
+
+.file-contents {
+    display: flex;
+    flex-direction: column;
 }
