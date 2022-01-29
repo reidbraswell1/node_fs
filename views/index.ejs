@@ -23,7 +23,7 @@
         <div class="file-action">
           <label for="file-action">Action</label>
             <select name="file-action" id="file-action">
-              <option value="Select"></option>
+              <option value="Select">Select</option>
               <option value="Add">Add</option>
               <option value="Update">Update</option>
               <option value="Delete">Delete</option>
@@ -31,7 +31,7 @@
             </select>
         </div>
       </form>
-      <div class="file-contents">
+      <div id="file-contents-container" class="file-contents">
         <label for="file-contents">File Contents</label>
         <textarea name="file-contents" id="file-contents" cols="30" rows="10"> <%=fileContents%> </textarea>
       </div>
@@ -39,18 +39,16 @@
       </div>
     </div>
     <script>
-      window.addEventListener(document.getElementById("file-action") {
-
-      });
       let fileAction = document.getElementById("file-action");
-      let fileActionValue = fileAction.value;
-      console.log(fileActionValue);
-      if(fileActionValue == "Read" || fileAction == "Update" || fileAction == "Add") {
-        
-      }
-      else {
-        document.getElementById("file-contents").style.display="none";
-      }
+      let fileContentsContainer = document.getElementById("file-contents-container");
+      fileAction.addEventListener("change", function(){
+          if(fileAction.value=="Delete" || fileAction.value=="Select") {
+            fileContentsContainer.style.display="none"
+          }
+          else {
+            fileContentsContainer.style.display="flex";
+          }
+      });
     </script>
   </body>
 </html>
