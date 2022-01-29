@@ -55,6 +55,6 @@ label {
 }
 
 .file-contents {
-    display: flex;
+    display: none;
     flex-direction: column;
 }
