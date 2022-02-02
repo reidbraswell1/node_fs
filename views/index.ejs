@@ -13,15 +13,22 @@
         <h1>Node File System</h1>
         <div class="directory">
           <label for="file-directory">Directory Listing: "<%=dirPath%>"</label>
-          <textarea name="file-directory" id="file-directory" cols="30" rows="8"><%=dirList%></textarea>
+          <textarea
+            name="file-directory"
+            id="file-directory"
+            cols="30"
+            rows="8"
+          >
+<%=dirList%></textarea
+          >
         </div>
-      <form class="form" action="/form-submission" method="POST">
-        <div class="file-name">
-          <label for="file-name">File Name</label>
-          <input type="text" id="file-name" name="file-name" />
-        </div>
-        <div class="file-action">
-          <label for="file-action">Action</label>
+        <form class="form" action="/form-submission" method="POST">
+          <div class="file-name">
+            <label for="file-name">File Name</label>
+            <input type="text" id="file-name" name="file-name" />
+          </div>
+          <div class="file-action">
+            <label for="file-action">Action</label>
             <select name="file-action" id="file-action">
               <option value="Select">Select</option>
               <option value="Add">Add</option>
@@ -29,28 +36,37 @@
               <option value="Delete">Delete</option>
               <option value="Read">Read</option>
             </select>
-        </div>
-      <div id="file-contents-container" class="file-contents">
-        <label for="file-contents">File Contents</label>
-        <textarea name="file-contents" id="file-contents" cols="30" rows="10"> <%=fileContents%> </textarea>
-      </div>
-      <div class="submit">
-        <button id="submit-button" type="submit" value="Submit">Submit</button>
-      </div>
-      </form>
-      </div>
+          </div>
+          <div id="file-contents-container" class="file-contents">
+            <label for="file-contents">File Contents</label>
+            <textarea
+              name="file-contents"
+              id="file-contents"
+              cols="30"
+              rows="10"
+            >
+ <%=fileContents%> </textarea
+            >
+          </div>
+          <div class="submit">
+            <button id="submit-button" type="submit" value="Submit">
+              Submit
+            </button>
+          </div>
+        </form>
       </div>
     </div>
     <script>
       let fileAction = document.getElementById("file-action");
-      let fileContentsContainer = document.getElementById("file-contents-container");
-      fileAction.addEventListener("change", function(){
-          if(fileAction.value=="Delete" || fileAction.value=="Select") {
-            fileContentsContainer.style.display="none"
-          }
-          else {
-            fileContentsContainer.style.display="flex";
-          }
+      let fileContentsContainer = document.getElementById(
+        "file-contents-container"
+      );
+      fileAction.addEventListener("change", function () {
+        if (fileAction.value == "Delete" || fileAction.value == "Select") {
+          fileContentsContainer.style.display = "none";
+        } else {
+          fileContentsContainer.style.display = "flex";
+        }
       });
     </script>
   </body>
