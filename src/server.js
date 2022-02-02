@@ -58,6 +58,10 @@ export const server = http.createServer((req, res) => {
         indexStyle(req, res);
         console.log(`--- End Case ${urlToRoute} Route ---`);
         break;
+      case "/form-submission":
+        console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        console.log(`--- End Case ${urlToRoute} Route ---`);
+        break;
     }
   });
 });
