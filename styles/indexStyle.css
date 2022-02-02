@@ -33,6 +33,13 @@ textarea {
     flex-direction: column;
 }
 
+.submit {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    align-items: center;
+}
+
 input { 
     height: 1.6rem;
     border: 1px solid blue;
@@ -57,4 +64,11 @@ label {
 .file-contents {
     display: none;
     flex-direction: column;
+}
+
+#submit-button {
+    background-color: lightblue;
+    width: 8rem;
+    height: 2.5rem;
+    font-size: 1.5rem;
 }
