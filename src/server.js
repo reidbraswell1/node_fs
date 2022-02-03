@@ -60,6 +60,14 @@ export const server = http.createServer((req, res) => {
         break;
       case "/form-submission":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        switch (req.method) {
+          case "POST":
+            console.log("Begin POST Method");
+            break;
+          case "GET":
+            console.log("Begin GET Method");
+            break;
+        }
         console.log(`--- End Case ${urlToRoute} Route ---`);
         break;
     }
