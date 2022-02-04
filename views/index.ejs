@@ -25,12 +25,12 @@
         <form class="form" action="/form-submission" method="POST">
           <div class="file-name">
             <label for="file-name">File Name</label>
-            <input type="text" id="file-name" name="file-name" />
+            <input type="text" id="file-name" name="file-name" required />
           </div>
           <div class="file-action">
             <label for="file-action">Action</label>
-            <select name="file-action" id="file-action">
-              <option value="Select">Select</option>
+            <select name="file-action" id="file-action" required >
+              <option value="">Select</option>
               <option value="Add">Add</option>
               <option value="Update">Update</option>
               <option value="Delete">Delete</option>
@@ -45,7 +45,7 @@
               cols="30"
               rows="10"
             >
- <%=fileContents%> </textarea
+<%=fileContents%> </textarea
             >
           </div>
           <div class="submit">
