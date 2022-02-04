@@ -63,6 +63,7 @@ export const server = http.createServer((req, res) => {
         switch (req.method) {
           case "POST":
             console.log("Begin POST Method");
+            console.log(`Chunks ${chunks.toString()}`);
             break;
           case "GET":
             console.log("Begin GET Method");
