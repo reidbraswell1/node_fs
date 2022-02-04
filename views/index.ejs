@@ -62,10 +62,10 @@
         "file-contents-container"
       );
       fileAction.addEventListener("change", function () {
-        if (fileAction.value == "Delete" || fileAction.value == "Select") {
-          fileContentsContainer.style.display = "none";
-        } else {
+        if (fileAction.value == "Add") {
           fileContentsContainer.style.display = "flex";
+        } else {
+          fileContentsContainer.style.display = "none";
         }
       });
     </script>
