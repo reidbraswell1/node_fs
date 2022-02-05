@@ -62,8 +62,9 @@ export const server = http.createServer((req, res) => {
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
         switch (req.method) {
           case "POST":
-            console.log("Begin POST Method");
-            console.log(`Chunks ${chunks.toString()}`);
+            console.log(`Begin POST Method`);
+            processPostRequest(req,res, chunks);
+            console.log(`End POST Method`);
             break;
           case "GET":
             console.log("Begin GET Method");
@@ -125,4 +126,23 @@ function indexStyle(req, res) {
   res.write(css);
   res.end();
   console.log(`--- End Function indexStyle() ---`);
+}
+
+function processPostRequest(req, res, reqBody) {
+  console.log(`--- Begin Function processPostRequest() ---`);
+  console.log(`Request Body: ${reqBody}`);
+  let params = new URLSearchParams(reqBody.toString());
+  let selectOption = params.get("file-action");
+  switch(selectOption) {
+    case "Read":
+      break;
+    case "Add":
+      break;
+    case "Update":
+      break;
+    case "Delete":
+      break;
+  }
+  console.log(`${selectOption}`);
+  console.log(`--- End Function processPostRequest() ---`);
 }
