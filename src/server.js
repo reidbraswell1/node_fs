@@ -131,11 +131,21 @@ function indexStyle(req, res) {
 function processPostRequest(req, res, reqBody) {
   console.log(`--- Begin Function processPostRequest() ---`);
   console.log(`Request Body: ${reqBody}`);
+  const baseDir = "scratchPad";
   let params = new URLSearchParams(reqBody.toString());
   let selectOption = params.get("file-action");
   switch(selectOption) {
     case "Read":
       let fileName = params.get("file-name");
+      // Does the file exist ?
+      console.log(__dirname);
+      if(fs.existsSync(`${baseDir}/${fileName}`)) {
+        console.log(`${baseDir}/${fileName} Exists!`);
+        renderReadFileResponse(req, res, fileName);
+      }
+      else {
+        console.log(`${baseDir}/${fileName} Does not exist!`);
+      }
       renderReadFileResponse(req, res, fileName);
       break;
     case "Add":
