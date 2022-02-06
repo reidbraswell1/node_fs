@@ -25,6 +25,7 @@ const config = {
             patterns: [
               { from: "views", to: "views" },
               { from: "styles", to: "styles" },
+              { from: "scratchPad", to: "scratchPad" },
               { from: "package.json", to: "" },
               { from: "webpack.config.js", to: "" }
             ],
