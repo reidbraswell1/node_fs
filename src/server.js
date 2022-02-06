@@ -135,14 +135,24 @@ function processPostRequest(req, res, reqBody) {
   let selectOption = params.get("file-action");
   switch(selectOption) {
     case "Read":
+      let fileName = params.get("file-name");
+      renderReadFileResponse(req, res, fileName);
       break;
     case "Add":
+      // Add file then render index page
       break;
     case "Update":
+      // Update file then render index page
       break;
     case "Delete":
+      // Delete file then render index page
       break;
   }
   console.log(`${selectOption}`);
   console.log(`--- End Function processPostRequest() ---`);
+}
+
+function renderReadFileResponse(req, res, fileName) {
+  console.log(`--- Begin Function renderFileResponse() ---`);
+  console.log(`--- End Function renderFileResponse() ---`);
 }
