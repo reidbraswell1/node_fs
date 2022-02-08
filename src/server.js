@@ -58,12 +58,16 @@ export const server = http.createServer((req, res) => {
         indexStyle(req, res);
         console.log(`--- End Case ${urlToRoute} Route ---`);
         break;
+      case "/styles/readFileStyle.css":
+        console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        readFileStyle(req, res);
+        console.log(`--- End Case ${urlToRoute} Route --- `);
       case "/form-submission":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
         switch (req.method) {
           case "POST":
             console.log(`Begin POST Method`);
-            processPostRequest(req,res, chunks);
+            processPostRequest(req, res, chunks);
             console.log(`End POST Method`);
             break;
           case "GET":
@@ -128,25 +132,36 @@ function indexStyle(req, res) {
   console.log(`--- End Function indexStyle() ---`);
 }
 
+// Serve stylesheet information for readFile response
+function readFileStyle(req, res) {
+  console.log(`--- Begin Function readFileStyle() ---`);
+  const styleSheet = "readFileStyle.css";
+
+  let fileStream = fs.createReadStream(`./styles/${styleSheet}`, "utf-8");
+  let css = fs.readFileSync(`./styles/${styleSheet}`, "utf-8");
+  res.writeHead(200, { "Content-Type": "text/css" });
+  res.write(css);
+  res.end();
+  console.log(`--- End Function readFileStyle() ---`);
+}
+
 function processPostRequest(req, res, reqBody) {
   console.log(`--- Begin Function processPostRequest() ---`);
   console.log(`Request Body: ${reqBody}`);
   const baseDir = "scratchPad";
   let params = new URLSearchParams(reqBody.toString());
   let selectOption = params.get("file-action");
-  switch(selectOption) {
+  switch (selectOption) {
     case "Read":
       let fileName = params.get("file-name");
       // Does the file exist ?
       console.log(__dirname);
-      if(fs.existsSync(`${baseDir}/${fileName}`)) {
+      if (fs.existsSync(`${baseDir}/${fileName}`)) {
         console.log(`${baseDir}/${fileName} Exists!`);
         renderReadFileResponse(req, res, fileName);
-      }
-      else {
+      } else {
         console.log(`${baseDir}/${fileName} Does not exist!`);
       }
-      renderReadFileResponse(req, res, fileName);
       break;
     case "Add":
       // Add file then render index page
@@ -164,5 +179,21 @@ function processPostRequest(req, res, reqBody) {
 
 function renderReadFileResponse(req, res, fileName) {
   console.log(`--- Begin Function renderFileResponse() ---`);
+  const template = fs.readFileSync(`./views/readFile.ejs`, "utf-8");
+  const baseDir = "scratchPad";
+  readFile(`${baseDir}/${fileName}`)
+    .then(function (message) {
+      let fileContents = message;
+      let html = ejs.render(template, {
+        fileName: fileName,
+        fileContents: message,
+      });
+      console.log("here readFile" + message);
+      res.write(html);
+      res.end();
+    })
+    .catch(function (error) {
+      console.log("An error occurred in function renderReadFileResponse readFile catch");
+    });
   console.log(`--- End Function renderFileResponse() ---`);
 }
