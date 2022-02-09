@@ -151,9 +151,9 @@ function processPostRequest(req, res, reqBody) {
   const baseDir = "scratchPad";
   let params = new URLSearchParams(reqBody.toString());
   let selectOption = params.get("file-action");
+  let fileName = params.get("file-name");
   switch (selectOption) {
     case "Read":
-      let fileName = params.get("file-name");
       // Does the file exist ?
       console.log(__dirname);
       if (fs.existsSync(`${baseDir}/${fileName}`)) {
@@ -168,6 +168,14 @@ function processPostRequest(req, res, reqBody) {
       break;
     case "Update":
       // Update file then render index page
+      // Does the file exist ?
+      console.log(__dirname);
+      if (fs.existsSync(`${baseDir}/${fileName}`)) {
+        console.log(`${baseDir}/${fileName} Exists!`);
+        renderUpdateFileResponse(req, res, fileName);
+      } else {
+        console.log(`${baseDir}/${fileName} Does not exist!`);
+      }
       break;
     case "Delete":
       // Delete file then render index page
@@ -180,6 +188,27 @@ function processPostRequest(req, res, reqBody) {
 function renderReadFileResponse(req, res, fileName) {
   console.log(`--- Begin Function renderFileResponse() ---`);
   const template = fs.readFileSync(`./views/readFile.ejs`, "utf-8");
+  const baseDir = "scratchPad";
+  readFile(`${baseDir}/${fileName}`)
+    .then(function (message) {
+      let fileContents = message;
+      let html = ejs.render(template, {
+        fileName: fileName,
+        fileContents: message,
+      });
+      console.log("here readFile" + message);
+      res.write(html);
+      res.end();
+    })
+    .catch(function (error) {
+      console.log("An error occurred in function renderReadFileResponse readFile catch");
+    });
+  console.log(`--- End Function renderFileResponse() ---`);
+}
+
+function renderUpdateFileResponse(req, res, fileName) {
+  console.log(`--- Begin Function renderFileResponse() ---`);
+  const template = fs.readFileSync(`./views/updateFile.ejs`, "utf-8");
   const baseDir = "scratchPad";
   readFile(`${baseDir}/${fileName}`)
     .then(function (message) {
