@@ -67,11 +67,14 @@ export const server = http.createServer((req, res) => {
         switch (req.method) {
           case "POST":
             console.log(`Begin POST Method`);
+            let params = new URLSearchParams(reqBody.toString());
             processPostRequest(req, res, chunks);
             console.log(`End POST Method`);
             break;
           case "GET":
-            console.log("Begin GET Method");
+            console.log(`Begin GET Method`);
+            let params = new URLSearchParams(req.url);
+            console.log(`End GET Method`);
             break;
         }
         console.log(`--- End Case ${urlToRoute} Route ---`);
