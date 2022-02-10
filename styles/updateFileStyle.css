@@ -24,6 +24,11 @@ textarea {
     font-size: 1.2rem;
 }
 
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
 .file-name {
     display: flex;
     flex-direction: column;
