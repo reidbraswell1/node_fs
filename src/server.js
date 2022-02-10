@@ -79,6 +79,20 @@ export const server = http.createServer((req, res) => {
             console.log(`Begin GET Method`);
             let paramsGet = new URLSearchParams(req.url);
             console.log(`End GET Method`);
+            break;   
+        }
+        console.log(`--- End Case ${urlToRoute} Route ---`);
+        break;
+      case "/form-submission-update-file":
+        console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        switch (req.method) {
+          case "POST":
+            console.log(`Begin POST Method`);
+            console.log(`End POST Method`);
+            break;
+          case "GET":
+            console.log(`Begin GET Method`);
+            console.log(`End GET Method`);
             break;
         }
         console.log(`--- End Case ${urlToRoute} Route ---`);
