@@ -62,7 +62,7 @@ export const server = http.createServer((req, res) => {
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
         readFileStyle(req, res);
         console.log(`--- End Case ${urlToRoute} Route --- `);
-      case "styles/updateFileStyle.css":
+      case "/styles/updateFileStyle.css":
         console.log(`--- Begin Case ${urlToRoute} Route`);
         updateFileStyle(req, res);
         console.log(`--- Begin Case ${urlToRoute} Route`);
@@ -244,5 +244,5 @@ function renderUpdateFileResponse(req, res, fileName) {
     .catch(function (error) {
       console.log("An error occurred in function renderReadFileResponse readFile catch");
     });
-  console.log(`--- End Function renderFileResponse() ---`);
+  console.log(`--- End Function renderUpdateFileResponse() ---`);
 }
