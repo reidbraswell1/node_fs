@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Node FS</title>
-    <link rel="stylesheet" href="styles/readFileStyle.css" />
+    <link rel="stylesheet" href="styles/updateFileStyle.css" />
   </head>
   <body>
     <div class="container">
       <div>
         <h1>Node File System</h1>
         <div id="file-contents-container" class="file-contents">
-          <form action="/form-submission-update-file" method="POST">
+          <form class="form" action="/form-submission-update-file" method="POST">
             <label for="file-contents">File Contents of: <span class="red"> <%=fileName%> </span></label>
             <textarea
               name="file-contents"
@@ -28,7 +28,6 @@
             <button>
               <a class="no-text-decoration" href="/">Index Page</a>
             </button>
-        </div>
       </div>
     </div>
   </body>
