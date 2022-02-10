@@ -62,18 +62,22 @@ export const server = http.createServer((req, res) => {
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
         readFileStyle(req, res);
         console.log(`--- End Case ${urlToRoute} Route --- `);
+      case "styles/updateFileStyle.css":
+        console.log(`--- Begin Case ${urlToRoute} Route`);
+        updateFileStyle(req, res);
+        console.log(`--- Begin Case ${urlToRoute} Route`);
       case "/form-submission":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
         switch (req.method) {
           case "POST":
             console.log(`Begin POST Method`);
-            let params = new URLSearchParams(reqBody.toString());
+            let paramsPost = new URLSearchParams(chunks.toString());
             processPostRequest(req, res, chunks);
             console.log(`End POST Method`);
             break;
           case "GET":
             console.log(`Begin GET Method`);
-            let params = new URLSearchParams(req.url);
+            let paramsGet = new URLSearchParams(req.url);
             console.log(`End GET Method`);
             break;
         }
@@ -147,6 +151,19 @@ function readFileStyle(req, res) {
   res.end();
   console.log(`--- End Function readFileStyle() ---`);
 }
+// Serve stylesheet information for updateFile response
+function updateFileStyle(req, res) {
+  console.log(`--- Begin Function updateFileStyle() ---`);
+  const styleSheet = "updateFileStyle.css";
+
+  let fileStream = fs.createReadStream(`./styles/${styleSheet}`, "utf-8");
+  let css = fs.readFileSync(`./styles/${styleSheet}`, "utf-8");
+  res.writeHead(200, { "Content-Type": "text/css" });
+  res.write(css);
+  res.end();
+  console.log(`--- End Function updateFileStyle() ---`);
+}
+
 
 function processPostRequest(req, res, reqBody) {
   console.log(`--- Begin Function processPostRequest() ---`);
