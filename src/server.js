@@ -71,14 +71,15 @@ export const server = http.createServer((req, res) => {
         switch (req.method) {
           case "POST":
             console.log(`Begin POST Method`);
-            let paramsPost = new URLSearchParams(chunks.toString());
-            processPostRequest(req, res, chunks);
+            let postParams = new URLSearchParams(chunks.toString());
+            processFormSubmissionPostRequest(req, res, postParams);
             console.log(`End POST Method`);
             break;
           case "GET":
-            console.log(`Begin GET Method`);
-            let paramsGet = new URLSearchParams(req.url);
-            console.log(`End GET Method`);
+            console.log(`Begin GET Method ${req.url}`);
+            let getParams = new URLSearchParams(req.url);
+            processFormSubmissionGetRequest(req, res, getParams);
+            console.log(`End GET Method ${req.url}`);
             break;   
         }
         console.log(`--- End Case ${urlToRoute} Route ---`);
@@ -179,13 +180,12 @@ function updateFileStyle(req, res) {
 }
 
 
-function processPostRequest(req, res, reqBody) {
+function processFormSubmissionPostRequest(req, res, postParams) {
   console.log(`--- Begin Function processPostRequest() ---`);
-  console.log(`Request Body: ${reqBody}`);
+  console.log(`Request Body: ${postParams}`);
   const baseDir = "scratchPad";
-  let params = new URLSearchParams(reqBody.toString());
-  let selectOption = params.get("file-action");
-  let fileName = params.get("file-name");
+  let selectOption = postParams.get("file-action");
+  let fileName = postParams.get("file-name");
   switch (selectOption) {
     case "Read":
       // Does the file exist ?
@@ -217,6 +217,10 @@ function processPostRequest(req, res, reqBody) {
   }
   console.log(`${selectOption}`);
   console.log(`--- End Function processPostRequest() ---`);
+}
+
+function formSumissionGetRequest(req, res, getParams) {
+
 }
 
 function renderReadFileResponse(req, res, fileName) {
