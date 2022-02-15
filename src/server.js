@@ -6,6 +6,7 @@ import { readDir } from "./readDirs.js";
 
 import { readFile } from "./readFile.js";
 import { runInNewContext } from "vm";
+import { createFile } from "./createFile.js";
 
 const serverPort = 3000;
 let dirPath = "scratchPad";
@@ -72,13 +73,13 @@ export const server = http.createServer((req, res) => {
           case "POST":
             console.log(`Begin POST Method`);
             let postParams = new URLSearchParams(chunks.toString());
-            processFormSubmissionPostRequest(req, res, postParams);
+            processFormSubmissionRequest(req, res, postParams);
             console.log(`End POST Method`);
             break;
           case "GET":
             console.log(`Begin GET Method ${req.url}`);
             let getParams = new URLSearchParams(req.url);
-            processFormSubmissionGetRequest(req, res, getParams);
+            processFormSubmissionRequest(req, res, getParams);
             console.log(`End GET Method ${req.url}`);
             break;   
         }
@@ -89,6 +90,8 @@ export const server = http.createServer((req, res) => {
         switch (req.method) {
           case "POST":
             console.log(`Begin POST Method`);
+            let postParams = new URLSearchParams(chunks.toString());
+            processFormSubmissionUpdateFileRequest(req, res, postParams);
             console.log(`End POST Method`);
             break;
           case "GET":
@@ -180,7 +183,7 @@ function updateFileStyle(req, res) {
 }
 
 
-function processFormSubmissionPostRequest(req, res, postParams) {
+function processFormSubmissionRequest(req, res, postParams) {
   console.log(`--- Begin Function processPostRequest() ---`);
   console.log(`Request Body: ${postParams}`);
   const baseDir = "scratchPad";
@@ -189,27 +192,31 @@ function processFormSubmissionPostRequest(req, res, postParams) {
   switch (selectOption) {
     case "Read":
       // Does the file exist ?
-      console.log(__dirname);
+      console.log(`--- Begin form-submission Case Read ---`);
       if (fs.existsSync(`${baseDir}/${fileName}`)) {
         console.log(`${baseDir}/${fileName} Exists!`);
         renderReadFileResponse(req, res, fileName);
       } else {
         console.log(`${baseDir}/${fileName} Does not exist!`);
       }
+      console.log(`--- End form-submission Case Read ---`);
       break;
     case "Add":
       // Add file then render index page
+      console.log(`--- Begin form-submission Case Add ---`);
+      console.log(`--- End form-submission Case Add ---`);
       break;
     case "Update":
       // Update file then render index page
       // Does the file exist ?
-      console.log(__dirname);
+      console.log(`--- Begin form-submission Case Update ---`);
       if (fs.existsSync(`${baseDir}/${fileName}`)) {
         console.log(`${baseDir}/${fileName} Exists!`);
         renderUpdateFileResponse(req, res, fileName);
       } else {
         console.log(`${baseDir}/${fileName} Does not exist!`);
       }
+      console.log(`--- End form-submission Case Update ---`)
       break;
     case "Delete":
       // Delete file then render index page
@@ -219,10 +226,27 @@ function processFormSubmissionPostRequest(req, res, postParams) {
   console.log(`--- End Function processPostRequest() ---`);
 }
 
-function formSumissionGetRequest(req, res, getParams) {
+function processFormSubmissionUpdateFileRequest(req, res, postParams) {
+  console.log(`--- Begin Function processFormSubmissionUpdateFileRequest() ---`);
+  let fileName = postParams.get("file-name");
+  console.log(`File Name = ${fileName}`);
+  let fileContents = postParams.get("file-contents");
+  console.log(`File Contents = ${fileContents}`);
+  const baseDir = "scratchPad";
+  createFile(`${baseDir}/${fileName}`, fileContents) 
+    .then(function (message) {
+      res.writeHead(302, {
+        location: "/",
+      });
+      res.end();
+  
+  })
+    .catch(function (error) {
 
+  });
+  console.log(`--- End Function processFormSubmissionUpdateFileRequest() ---`);
+  
 }
-
 function renderReadFileResponse(req, res, fileName) {
   console.log(`--- Begin Function renderFileResponse() ---`);
   const template = fs.readFileSync(`./views/readFile.ejs`, "utf-8");
@@ -263,4 +287,8 @@ function renderUpdateFileResponse(req, res, fileName) {
       console.log("An error occurred in function renderReadFileResponse readFile catch");
     });
   console.log(`--- End Function renderUpdateFileResponse() ---`);
+}
+
+function renderErrorPage(req, res, err) {
+  console.log(err);
 }
