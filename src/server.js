@@ -56,16 +56,20 @@ export const server = http.createServer((req, res) => {
         break;
       case "/styles/indexStyle.css":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
-        indexStyle(req, res);
+        serveStyleSheets(req, res, "indexStyle.css");
         console.log(`--- End Case ${urlToRoute} Route ---`);
         break;
       case "/styles/readFileStyle.css":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
-        readFileStyle(req, res);
+        serveStyleSheets(req, res, "readFileStyle.css");
+        console.log(`--- End Case ${urlToRoute} Route --- `);
+      case "/styles/addFileStyle.css":
+        console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        serveStyleSheets(req, res, "addFileStyle.css");
         console.log(`--- End Case ${urlToRoute} Route --- `);
       case "/styles/updateFileStyle.css":
         console.log(`--- Begin Case ${urlToRoute} Route`);
-        updateFileStyle(req, res);
+        serveStyleSheets(req, res, "updateFileStyle.css");
         console.log(`--- Begin Case ${urlToRoute} Route`);
       case "/form-submission":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
@@ -144,44 +148,43 @@ function renderHomePage(req, res) {
     .catch(function (error) {});
 }
 
-// Serve stylesheet information for homepage
-function indexStyle(req, res) {
-  console.log(`--- Begin Function indexStyle() ---`);
-  const styleSheet = "indexStyle.css";
-
-  let fileStream = fs.createReadStream(`./styles/${styleSheet}`, "utf-8");
-  let css = fs.readFileSync(`./styles/${styleSheet}`, "utf-8");
+// Serve stylesheets
+function serveStyleSheets(req, res, stylesheet) {
+  console.log(`---Begin Function serveStyleSheets() ---`);
   res.writeHead(200, { "Content-Type": "text/css" });
-  res.write(css);
+  switch (stylesheet) {
+    case "indexStyle.css": 
+      {
+        let fileStream = fs.createReadStream(`./styles/indexStyle.css`, "utf-8");
+        let css = fs.readFileSync(`./styles/indexStyle.css`, "utf-8");
+        res.write(css);
+      }
+      break;
+    case "addFileStyle.css":
+      {
+        let fileStream = fs.createReadStream(`./styles/addFileStyle.css`, "utf-8");
+        let css = fs.readFileSync(`./styles/addFileStyle.css`, "utf-8");
+        res.write(css);
+      }
+      break;
+    case "readFileStyle.css":
+      {
+        let fileStream = fs.createReadStream(`./styles/readFileStyle.css`, "utf-8");
+        let css = fs.readFileSync(`./styles/readFileStyle.css`, "utf-8");
+        res.write(css);
+        break;
+      }
+    case "updateFileStyle.css":
+      {
+        let fileStream = fs.createReadStream(`./styles/updateFileStyle.css`, "utf-8");
+        let css = fs.readFileSync(`./styles/updateFileStyle.css`, "utf-8");
+        res.write(css);
+      }
+      break;
+  }
   res.end();
-  console.log(`--- End Function indexStyle() ---`);
+  console.log(`---End Function serveStyleSheets() ---`);
 }
-
-// Serve stylesheet information for readFile response
-function readFileStyle(req, res) {
-  console.log(`--- Begin Function readFileStyle() ---`);
-  const styleSheet = "readFileStyle.css";
-
-  let fileStream = fs.createReadStream(`./styles/${styleSheet}`, "utf-8");
-  let css = fs.readFileSync(`./styles/${styleSheet}`, "utf-8");
-  res.writeHead(200, { "Content-Type": "text/css" });
-  res.write(css);
-  res.end();
-  console.log(`--- End Function readFileStyle() ---`);
-}
-// Serve stylesheet information for updateFile response
-function updateFileStyle(req, res) {
-  console.log(`--- Begin Function updateFileStyle() ---`);
-  const styleSheet = "updateFileStyle.css";
-
-  let fileStream = fs.createReadStream(`./styles/${styleSheet}`, "utf-8");
-  let css = fs.readFileSync(`./styles/${styleSheet}`, "utf-8");
-  res.writeHead(200, { "Content-Type": "text/css" });
-  res.write(css);
-  res.end();
-  console.log(`--- End Function updateFileStyle() ---`);
-}
-
 
 function processFormSubmissionRequest(req, res, postParams) {
   console.log(`--- Begin Function processPostRequest() ---`);
@@ -204,6 +207,12 @@ function processFormSubmissionRequest(req, res, postParams) {
     case "Add":
       // Add file then render index page
       console.log(`--- Begin form-submission Case Add ---`);
+      if (fs.existsSync(`${baseDir}/${fileName}`)) {
+        console.log(`${baseDir}/${fileName} Exists!`);
+      } else {
+        console.log(`${baseDir}/${fileName} Does not exist!`);
+        renderAddFileResponse(req, res, fileName);
+      }
       console.log(`--- End form-submission Case Add ---`);
       break;
     case "Update":
@@ -266,6 +275,18 @@ function renderReadFileResponse(req, res, fileName) {
       console.log("An error occurred in function renderReadFileResponse readFile catch");
     });
   console.log(`--- End Function renderFileResponse() ---`);
+}
+
+function renderAddFileResponse(req, res, fileName) {
+  console.log(`--- Begin Function renderAddFileResponse() ---`);
+  const template = fs.readFileSync(`./views/addFile.ejs`, "utf-8");
+  const baseDir = "scratchPad";
+  let html = ejs.render(template, {
+    fileName: fileName
+  });
+  res.write(html);
+  res.end();
+  console.log(`--- End Function renderAddFileResponse() ---`);
 }
 
 function renderUpdateFileResponse(req, res, fileName) {
