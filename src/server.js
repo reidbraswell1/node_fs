@@ -148,6 +148,44 @@ function renderHomePage(req, res) {
     .catch(function (error) {});
 }
 
+function renderPages(req, res, page, fileName, err) {
+  console.log(`--- Begin Function renderPages() ---`);
+  switch (page) {
+    case "index":
+      {
+        break;
+      }
+    case "readFile":
+      {
+        console.log(`--- Begin Case readFile ---`);
+        console.log(`--- End Case readFile ---`);
+        break;
+      }
+    case "addFile":
+      {
+        console.log(`--- Begin Case addFile ---`);
+        const template = fs.readFileSync(`./views/addFile.ejs`, "utf-8");
+        const baseDir = "scratchPad";
+        let html = ejs.render(template, {
+                    fileName: fileName
+                  });
+        res.write(html);
+        res.end();
+        console.log(`--- End Case addFile ---`);
+        break;
+      }
+    case "updateFile":
+      {
+        break;
+      }
+    case "deleteFile":
+      {
+        break;
+      }
+  }
+  console.log(`--- End Function renderPages() ---`);
+}
+
 // Serve stylesheets
 function serveStyleSheets(req, res, stylesheet) {
   console.log(`---Begin Function serveStyleSheets() ---`);
@@ -211,7 +249,8 @@ function processFormSubmissionRequest(req, res, postParams) {
         console.log(`${baseDir}/${fileName} Exists!`);
       } else {
         console.log(`${baseDir}/${fileName} Does not exist!`);
-        renderAddFileResponse(req, res, fileName);
+        // renderAddFileResponse(req, res, fileName);
+        renderPages(req, res, "addFile", fileName, null);
       }
       console.log(`--- End form-submission Case Add ---`);
       break;
