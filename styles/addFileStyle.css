@@ -1,0 +1,78 @@
+body {
+    font-size: 1.2rem;
+}
+
+.container {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+textarea {
+    border: 1px solid blue;
+    color: green;
+    font-size: 1.1rem;
+}
+
+.green {
+    color: green;
+    font-size:1.2rem;
+}
+
+.red {
+    color: red;
+    font-size: 1.2rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.file-name {
+    display: flex;
+    flex-direction: column;
+}
+
+input { 
+    height: 1.6rem;
+    border: 1px solid blue;
+    font-size: 1.2rem;
+}
+
+.file-action {
+    display: flex;
+    flex-direction: column;
+}
+
+select {
+    height: 2rem;
+    font-size: 1.2rem;
+    border: 1px solid blue;
+}
+
+label {
+    align-self: flex-start;
+}
+
+.file-contents {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    background-color: lightblue;
+    width: 15rem;
+    height: 2.5rem;
+    font-size: 1.5rem;
+    align-self: center;
+    margin-top: 2rem;
+}
+
+a { 
+    color: black;
+}
+
+.no-text-decoration {
+    text-decoration: none;
+}
