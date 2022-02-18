@@ -192,6 +192,24 @@ function renderPages(req, res, page, fileName, err) {
       break;
     }
     case "updateFile": {
+      const template = fs.readFileSync(`./views/updateFile.ejs`, "utf-8");
+      const baseDir = "scratchPad";
+      readFile(`${baseDir}/${fileName}`)
+        .then(function (message) {
+          let fileContents = message;
+          let html = ejs.render(template, {
+            fileName: fileName,
+            fileContents: message,
+          });
+          console.log("here readFile" + message);
+          res.write(html);
+          res.end();
+        })
+        .catch(function (error) {
+          console.log(
+            "An error occurred in function renderReadFileResponse readFile catch"
+          );
+        });
       break;
     }
     case "deleteFile": {
@@ -281,7 +299,8 @@ function processFormSubmissionRequest(req, res, postParams) {
       console.log(`--- Begin form-submission Case Update ---`);
       if (fs.existsSync(`${baseDir}/${fileName}`)) {
         console.log(`${baseDir}/${fileName} Exists!`);
-        renderUpdateFileResponse(req, res, fileName);
+        //renderUpdateFileResponse(req, res, fileName);
+        renderPages(req, res, "updateFile", fileName, null);
       } else {
         console.log(`${baseDir}/${fileName} Does not exist!`);
       }
