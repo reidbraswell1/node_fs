@@ -7,6 +7,7 @@ import { readDir } from "./readDirs.js";
 import { readFile } from "./readFile.js";
 import { runInNewContext } from "vm";
 import { createFile } from "./createFile.js";
+import { exit } from "process";
 
 const serverPort = 3000;
 let dirPath = "scratchPad";
@@ -36,7 +37,7 @@ export const server = http.createServer((req, res) => {
   // Handle Response Error's
   res.on("error", (err) => {
     console.log(`Response Error - ${err}`);
-    res.writeHead(500, { "Content-Type": "text/html" });
+    res.writeHead(200, { "Content-Type": "text/html" });
     renderErrorPage(req, res, err);
   });
 
@@ -74,6 +75,10 @@ export const server = http.createServer((req, res) => {
         serveStyleSheets(req, res, "updateFileStyle.css");
         console.log(`--- Begin Case ${urlToRoute} Route`);
         break;
+      case "/styles/errorStyle.css":
+        console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        serveStyleSheets(req, res, "errorStyle.css");
+        console.log(`--- End Case ${urlToRoute} Route ---`);
       case "/form-submission":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
         switch (req.method) {
@@ -170,6 +175,9 @@ function renderPages(req, res, page, fileName, err) {
           });
           res.write(html);
           res.end();
+          //return;
+          res.write("dddd");
+          return;
         })
         .catch(function (error) {
           console.log(
@@ -254,6 +262,12 @@ function serveStyleSheets(req, res, stylesheet) {
         "utf-8"
       );
       let css = fs.readFileSync(`./styles/updateFileStyle.css`, "utf-8");
+      res.write(css);
+      break;
+    }
+    case "errorStyle.css": {
+      let fileStream = fs.createReadStream(`./styles.errorStyle.css`, "utf-8");
+      let css = fs.readFileSync(`./styles/errorStyle.css`, "utf-8");
       res.write(css);
       break;
     }
@@ -392,5 +406,12 @@ function renderUpdateFileResponse(req, res, fileName) {
 }
 
 function renderErrorPage(req, res, err) {
-  console.log(err);
+  console.log(`--- Begin Function renderErrorPage() ---`);
+  const template = fs.readFileSync(`./views/error.ejs`, "utf-8");
+      let html = ejs.render(template, {
+        errorText: err.toString(),
+      });
+      res.write(html);
+      res.end();
+  console.log(`--- End Function renderErrorPage() ---`);
 }
