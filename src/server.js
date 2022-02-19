@@ -29,16 +29,15 @@ export const server = http.createServer((req, res) => {
 
   // Handle Request Error's
   req.on("error", (err) => {
-    console.log(`Request Error - ${err}`);
+    console.log(`--- Request Error - ${err} ---`);
     res.writeHead(400, { "Content-Type": "text/html" });
     renderErrorPage(req, res, error);
   });
 
   // Handle Response Error's
   res.on("error", (err) => {
-    console.log(`Response Error - ${err}`);
-    res.writeHead(200, { "Content-Type": "text/html" });
-    renderErrorPage(req, res, err);
+    console.log(`--- Response Error - ${err} ---`);
+    return;
   });
 
   // Assemble data from body of request
@@ -111,6 +110,9 @@ export const server = http.createServer((req, res) => {
             console.log(`End GET Method`);
             break;
         }
+        default: {
+          renderErrorPage(req, res, `URL "${req.url}" Not Found On This Server`)
+        }
         console.log(`--- End Case ${urlToRoute} Route ---`);
         break;
     }
@@ -145,8 +147,7 @@ function renderHomePage(req, res) {
             fileContents: message,
           });
           console.log("here" + message);
-          res.write(html);
-          res.end();
+          res.end(html);
         })
         .catch(function (error) {});
 
@@ -173,11 +174,7 @@ function renderPages(req, res, page, fileName, err) {
             fileName: fileName,
             fileContents: message,
           });
-          res.write(html);
-          res.end();
-          //return;
-          res.write("dddd");
-          return;
+          res.end(html);
         })
         .catch(function (error) {
           console.log(
@@ -194,8 +191,7 @@ function renderPages(req, res, page, fileName, err) {
       let html = ejs.render(template, {
         fileName: fileName,
       });
-      res.write(html);
-      res.end();
+      res.end(html);
       console.log(`--- End Case addFile ---`);
       break;
     }
@@ -210,8 +206,7 @@ function renderPages(req, res, page, fileName, err) {
             fileContents: message,
           });
           console.log("here readFile" + message);
-          res.write(html);
-          res.end();
+          res.end(html);
         })
         .catch(function (error) {
           console.log(
@@ -266,7 +261,7 @@ function serveStyleSheets(req, res, stylesheet) {
       break;
     }
     case "errorStyle.css": {
-      let fileStream = fs.createReadStream(`./styles.errorStyle.css`, "utf-8");
+      let fileStream = fs.createReadStream(`./styles/errorStyle.css`, "utf-8");
       let css = fs.readFileSync(`./styles/errorStyle.css`, "utf-8");
       res.write(css);
       break;
@@ -359,8 +354,7 @@ function renderReadFileResponse(req, res, fileName) {
         fileContents: message,
       });
       console.log("here readFile" + message);
-      res.write(html);
-      res.end();
+      res.end(html);
     })
     .catch(function (error) {
       console.log(
@@ -377,8 +371,7 @@ function renderAddFileResponse(req, res, fileName) {
   let html = ejs.render(template, {
     fileName: fileName,
   });
-  res.write(html);
-  res.end();
+  res.end(html);
   console.log(`--- End Function renderAddFileResponse() ---`);
 }
 
@@ -394,8 +387,7 @@ function renderUpdateFileResponse(req, res, fileName) {
         fileContents: message,
       });
       console.log("here readFile" + message);
-      res.write(html);
-      res.end();
+      res.end(html);
     })
     .catch(function (error) {
       console.log(
@@ -407,11 +399,11 @@ function renderUpdateFileResponse(req, res, fileName) {
 
 function renderErrorPage(req, res, err) {
   console.log(`--- Begin Function renderErrorPage() ---`);
+  console.log(err.toString());
   const template = fs.readFileSync(`./views/error.ejs`, "utf-8");
       let html = ejs.render(template, {
         errorText: err.toString(),
       });
-      res.write(html);
-      res.end();
+      res.end(html);
   console.log(`--- End Function renderErrorPage() ---`);
 }
