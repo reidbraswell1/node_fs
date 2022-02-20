@@ -343,9 +343,20 @@ function processFormSubmissionAddFileRequest(req, res, postParams) {
     `--- Begin Function processFormSubmissionAddFileRequest() ---`
   );
   let fileName = postParams.get("file-name");
-  console.log(`File Name = ${fileName}`);
+  console.log(`File Name = '${fileName}'`);
   let fileContents = postParams.get("file-contents");
   console.log(`File Contents = ${fileContents}`);
+  const baseDir = "scratchPad";
+  createFile(`${baseDir}/${fileName}`, fileContents)
+    .then(function (message) {
+      res.writeHead(302, {
+        location: "/",
+      });
+      res.end();
+    })
+    .catch(function (error) {
+      renderErrorPage(req, res, error);
+    });
   console.log(
     `--- End Function processFormSubmissionAddFileRequest() ---`
   );
@@ -360,14 +371,16 @@ function processFormSubmissionUpdateFileRequest(req, res, postParams) {
   let fileContents = postParams.get("file-contents");
   console.log(`File Contents = ${fileContents}`);
   const baseDir = "scratchPad";
-  createFile(`${baseDir}/${fileName}`, fileContents)
+  createFile(`'${baseDir}/${fileName}'`, fileContents)
     .then(function (message) {
       res.writeHead(302, {
         location: "/",
       });
       res.end();
     })
-    .catch(function (error) {});
+    .catch(function (error) {
+      renderErrorPage(req, res, error);
+    });
   console.log(`--- End Function processFormSubmissionUpdateFileRequest() ---`);
 }
 function renderReadFileResponse(req, res, fileName) {
