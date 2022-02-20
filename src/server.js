@@ -342,6 +342,10 @@ function processFormSubmissionAddFileRequest(req, res, postParams) {
   console.log(
     `--- Begin Function processFormSubmissionAddFileRequest() ---`
   );
+  let fileName = postParams.get("file-name");
+  console.log(`File Name = ${fileName}`);
+  let fileContents = postParams.get("file-contents");
+  console.log(`File Contents = ${fileContents}`);
   console.log(
     `--- End Function processFormSubmissionAddFileRequest() ---`
   );
