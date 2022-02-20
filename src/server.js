@@ -96,6 +96,22 @@ export const server = http.createServer((req, res) => {
         }
         console.log(`--- End Case ${urlToRoute} Route ---`);
         break;
+      case "/form-submission-add-file":
+        console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        switch (req.method) {
+          case "POST":
+            console.log(`Begin POST Method`);
+            let postParams = new URLSearchParams(chunks.toString());
+            processFormSubmissionAddFileRequest(req, res, postParams);
+            console.log(`End POST Method`);
+            break;
+          case "GET":
+            console.log(`Begin GET Method`);
+            console.log(`End GET Method`);
+            break;
+        }
+        console.log(`--- End Case ${urlToRoute} Route ---`);
+        break;
       case "/form-submission-update-file":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
         switch (req.method) {
@@ -321,6 +337,14 @@ function processFormSubmissionRequest(req, res, postParams) {
   }
   console.log(`${selectOption}`);
   console.log(`--- End Function processPostRequest() ---`);
+}
+function processFormSubmissionAddFileRequest(req, res, postParams) {
+  console.log(
+    `--- Begin Function processFormSubmissionAddFileRequest() ---`
+  );
+  console.log(
+    `--- End Function processFormSubmissionAddFileRequest() ---`
+  );
 }
 
 function processFormSubmissionUpdateFileRequest(req, res, postParams) {
