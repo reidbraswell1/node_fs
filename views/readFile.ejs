@@ -12,16 +12,19 @@
       <div>
         <h1>Node File System</h1>
         <div id="file-contents-container" class="file-contents">
-            <label for="file-contents">File Contents of: <span class="red"> <%=fileName%> </span></label>
-            <textarea
-              name="file-contents"
-              id="file-contents"
-              cols="30"
-              rows="10"
-            ><%=fileContents%> </textarea>
-            <button type="button">
-              <a class="no-text-decoration" href="/">Index Page</a>
-            </button>
+          <label for="file-contents"
+            >File Contents of: <span class="red"> <%=fileName%> </span></label
+          >
+          <textarea
+            disabled="true"
+            name="file-contents"
+            id="file-contents"
+            cols="30"
+            rows="10"
+          >
+<%=fileContents%></textarea
+          >
+          <button type="button" onclick="window.location.href='/'">Index Page</button>
         </div>
       </div>
     </div>
