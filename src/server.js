@@ -9,6 +9,7 @@ import { runInNewContext } from "vm";
 import { createFile } from "./createFile.js";
 import { updateFile } from "./updateFile.js";
 import { deleteFile } from "./deleteFile.js";
+import { logger } from "./logger.js";
 import { exit } from "process";
 
 const serverPort = 3000;
