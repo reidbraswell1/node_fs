@@ -12,7 +12,7 @@ import { deleteFile } from "./deleteFile.js";
 import { exit } from "process";
 
 const serverPort = 3000;
-let dirPath = "scratchPad";
+let baseDir = "scratchPad";
 
 export const server = http.createServer((req, res) => {
   console.log("Begin createServer");
@@ -157,18 +157,18 @@ console.log(`Server running on port ${server.address().port}`);
 
 function renderHomePage(req, res, error) {
   const template = fs.readFileSync(`./views/index.ejs`, "utf-8");
-  readDir(dirPath)
+  readDir(baseDir)
     .then(function (message) {
       // Omit "Read Directories: " text
       let listing = message.substring(message.indexOf(":") + 2);
       // Replace all commas with new lines
       listing = listing.replace(/,/g, "\n");
 
-      readFile("scratchPad/test-file_1.html")
+      readFile(`${baseDir}/test-file_1.html`)
         .then(function (message) {
           let fileContents = message;
           let html = ejs.render(template, {
-            dirPath: dirPath,
+            dirPath: baseDir,
             dirList: listing,
             fileContents: message,
             errorMessage: error
@@ -193,7 +193,6 @@ function renderPages(req, res, page, fileName, err) {
     case "readFile": {
       console.log(`--- Begin Case readFile ---`);
       const template = fs.readFileSync(`./views/readFile.ejs`, "utf-8");
-      const baseDir = "scratchPad";
       readFile(`${baseDir}/${fileName}`)
         .then(function (message) {
           let fileContents = message;
@@ -214,7 +213,6 @@ function renderPages(req, res, page, fileName, err) {
     case "addFile": {
       console.log(`--- Begin Case addFile ---`);
       const template = fs.readFileSync(`./views/addFile.ejs`, "utf-8");
-      const baseDir = "scratchPad";
       let html = ejs.render(template, {
         fileName: fileName,
       });
@@ -224,7 +222,6 @@ function renderPages(req, res, page, fileName, err) {
     }
     case "updateFile": {
       const template = fs.readFileSync(`./views/updateFile.ejs`, "utf-8");
-      const baseDir = "scratchPad";
       readFile(`${baseDir}/${fileName}`)
         .then(function (message) {
           let fileContents = message;
@@ -301,7 +298,6 @@ function serveStyleSheets(req, res, stylesheet) {
 function processFormSubmissionRequest(req, res, postParams) {
   console.log(`--- Begin Function processPostRequest() ---`);
   console.log(`Request Body: ${postParams}`);
-  const baseDir = "scratchPad";
   let selectOption = postParams.get("file-action");
   let fileName = postParams.get("file-name");
   switch (selectOption) {
@@ -368,7 +364,6 @@ function processFormSubmissionAddFileRequest(req, res, postParams) {
   console.log(`File Name = '${fileName}'`);
   let fileContents = postParams.get("file-contents");
   console.log(`File Contents = ${fileContents}`);
-  const baseDir = "scratchPad";
   createFile(`${baseDir}/${fileName}`, fileContents)
     .then(function (message) {
       res.writeHead(302, {
@@ -390,7 +385,6 @@ function processFormSubmissionUpdateFileRequest(req, res, postParams) {
   console.log(`File Name = ${fileName}`);
   let fileContents = postParams.get("file-contents");
   console.log(`File Contents = ${fileContents}`);
-  const baseDir = "scratchPad";
   updateFile(`${baseDir}/${fileName}`, fileContents)
     .then(function (message) {
       console.log(`--- Update File Return Message: ${message} ---`);
@@ -411,7 +405,6 @@ function processFormDeleteFileRequest(req, res, postParams) {
   );
   let fileName = postParams.get("file-name");
   console.log(`File Name = ${fileName}`);
-  const baseDir = "scratchPad";
   deleteFile(`${baseDir}/${fileName}`)
   .then(function (message) {
     console.log(`--- Delete Message ${message} ---`);
@@ -430,7 +423,6 @@ function processFormDeleteFileRequest(req, res, postParams) {
 function renderReadFileResponse(req, res, fileName) {
   console.log(`--- Begin Function renderFileResponse() ---`);
   const template = fs.readFileSync(`./views/readFile.ejs`, "utf-8");
-  const baseDir = "scratchPad";
   readFile(`${baseDir}/${fileName}`)
     .then(function (message) {
       let fileContents = message;
@@ -452,7 +444,6 @@ function renderReadFileResponse(req, res, fileName) {
 function renderAddFileResponse(req, res, fileName) {
   console.log(`--- Begin Function renderAddFileResponse() ---`);
   const template = fs.readFileSync(`./views/addFile.ejs`, "utf-8");
-  const baseDir = "scratchPad";
   let html = ejs.render(template, {
     fileName: fileName,
   });
@@ -463,7 +454,6 @@ function renderAddFileResponse(req, res, fileName) {
 function renderUpdateFileResponse(req, res, fileName) {
   console.log(`--- Begin Function renderFileResponse() ---`);
   const template = fs.readFileSync(`./views/updateFile.ejs`, "utf-8");
-  const baseDir = "scratchPad";
   readFile(`${baseDir}/${fileName}`)
     .then(function (message) {
       let fileContents = message;
