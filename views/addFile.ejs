@@ -13,7 +13,7 @@
         <h1>Node File System</h1>
         <div id="file-contents-container" class="file-contents">
           <form class="form" action="/form-submission-add-file" method="POST">
-            <input type="hidden" id="file-name" name="file-name" value=<%=fileName%>>
+            <input type="hidden" id="file-name" name="file-name" value="<%=fileName%>">
             <label for="file-contents">Add New File Contents Below: <span class="red"> <%=fileName%> </span></label>
             <textarea
               name="file-contents"
