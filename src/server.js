@@ -7,6 +7,8 @@ import { readDir } from "./readDirs.js";
 import { readFile } from "./readFile.js";
 import { runInNewContext } from "vm";
 import { createFile } from "./createFile.js";
+import { updateFile } from "./updateFile.js";
+import { deleteFile } from "./deleteFile.js";
 import { exit } from "process";
 
 const serverPort = 3000;
@@ -102,6 +104,7 @@ export const server = http.createServer((req, res) => {
           case "POST":
             console.log(`Begin POST Method`);
             let postParams = new URLSearchParams(chunks.toString());
+            console.log(`Post Parameters = ${postParams}`);
             processFormSubmissionAddFileRequest(req, res, postParams);
             console.log(`End POST Method`);
             break;
@@ -112,7 +115,7 @@ export const server = http.createServer((req, res) => {
         }
         console.log(`--- End Case ${urlToRoute} Route ---`);
         break;
-      case "/form-submission-update-file":
+      case "/form-submission-update-file": {
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
         switch (req.method) {
           case "POST":
@@ -126,8 +129,15 @@ export const server = http.createServer((req, res) => {
             console.log(`End GET Method`);
             break;
         }
-        default: {
-          renderErrorPage(req, res, `URL "${req.url}" Not Found On This Server`)
+        break;
+      }
+      default:
+        {
+          renderErrorPage(
+            req,
+            res,
+            `URL "${req.url}" Not Found On This Server`
+          );
         }
         console.log(`--- End Case ${urlToRoute} Route ---`);
         break;
@@ -145,7 +155,7 @@ server.listen(serverPort, function (callback) {
 });
 console.log(`Server running on port ${server.address().port}`);
 
-function renderHomePage(req, res) {
+function renderHomePage(req, res, error) {
   const template = fs.readFileSync(`./views/index.ejs`, "utf-8");
   readDir(dirPath)
     .then(function (message) {
@@ -161,6 +171,7 @@ function renderHomePage(req, res) {
             dirPath: dirPath,
             dirList: listing,
             fileContents: message,
+            errorMessage: error
           });
           console.log("here" + message);
           res.end(html);
@@ -302,7 +313,8 @@ function processFormSubmissionRequest(req, res, postParams) {
         //renderReadFileResponse(req, res, fileName);
         renderPages(req, res, "readFile", fileName, null);
       } else {
-        console.log(`${baseDir}/${fileName} Does not exist!`);
+        console.log(`${baseDir}/File ${fileName} Does not exist!`);
+        renderErrorPage(req, res, `File "${fileName}" Not Found!`);
       }
       console.log(`--- End form-submission Case Read ---`);
       break;
@@ -311,6 +323,7 @@ function processFormSubmissionRequest(req, res, postParams) {
       console.log(`--- Begin form-submission Case Add ---`);
       if (fs.existsSync(`${baseDir}/${fileName}`)) {
         console.log(`${baseDir}/${fileName} Exists!`);
+        renderErrorPage(req, res, `File ${fileName} Already Exists!`);
       } else {
         console.log(`${baseDir}/${fileName} Does not exist!`);
         //renderAddFileResponse(req, res, fileName);
@@ -327,21 +340,30 @@ function processFormSubmissionRequest(req, res, postParams) {
         //renderUpdateFileResponse(req, res, fileName);
         renderPages(req, res, "updateFile", fileName, null);
       } else {
-        console.log(`${baseDir}/${fileName} Does not exist!`);
+        console.log(`${baseDir}/File "${fileName}" Does not exist!`);
+        renderErrorPage(req, res, `File "${fileName}" Does Not Exist!`) 
       }
       console.log(`--- End form-submission Case Update ---`);
       break;
     case "Delete":
+      console.log(`--- Begin form-submission Case Delete ---`);
       // Delete file then render index page
+      if (fs.existsSync(`${baseDir}/${fileName}`)) {
+        console.log(`${baseDir}/${fileName} Exists!`);
+        processFormDeleteFileRequest(req, res, postParams);
+      }
+      else {
+        console.log(`${baseDir}/File "${fileName}" Does not exist!`);
+        renderErrorPage(req, res, `File "${fileName}" Does Not Exist!`);
+      }
+      console.log(`--- End form-submission Case Delete ---`);
       break;
   }
   console.log(`${selectOption}`);
   console.log(`--- End Function processPostRequest() ---`);
 }
 function processFormSubmissionAddFileRequest(req, res, postParams) {
-  console.log(
-    `--- Begin Function processFormSubmissionAddFileRequest() ---`
-  );
+  console.log(`--- Begin Function processFormSubmissionAddFileRequest() ---`);
   let fileName = postParams.get("file-name");
   console.log(`File Name = '${fileName}'`);
   let fileContents = postParams.get("file-contents");
@@ -357,9 +379,7 @@ function processFormSubmissionAddFileRequest(req, res, postParams) {
     .catch(function (error) {
       renderErrorPage(req, res, error);
     });
-  console.log(
-    `--- End Function processFormSubmissionAddFileRequest() ---`
-  );
+  console.log(`--- End Function processFormSubmissionAddFileRequest() ---`);
 }
 
 function processFormSubmissionUpdateFileRequest(req, res, postParams) {
@@ -371,8 +391,9 @@ function processFormSubmissionUpdateFileRequest(req, res, postParams) {
   let fileContents = postParams.get("file-contents");
   console.log(`File Contents = ${fileContents}`);
   const baseDir = "scratchPad";
-  createFile(`'${baseDir}/${fileName}'`, fileContents)
+  updateFile(`${baseDir}/${fileName}`, fileContents)
     .then(function (message) {
+      console.log(`--- Update File Return Message: ${message} ---`);
       res.writeHead(302, {
         location: "/",
       });
@@ -383,6 +404,29 @@ function processFormSubmissionUpdateFileRequest(req, res, postParams) {
     });
   console.log(`--- End Function processFormSubmissionUpdateFileRequest() ---`);
 }
+
+function processFormDeleteFileRequest(req, res, postParams) {
+  console.log(
+    `--- Begin Function processFormSubmissionDeleteFileRequest() ---`
+  );
+  let fileName = postParams.get("file-name");
+  console.log(`File Name = ${fileName}`);
+  const baseDir = "scratchPad";
+  deleteFile(`${baseDir}/${fileName}`)
+  .then(function (message) {
+    console.log(`--- Delete Message ${message} ---`);
+    res.writeHead(302, {
+      location: "/",
+    });
+    res.end();
+  })
+  .catch(function(error) {
+    console.log(`--- Delete Error ${error} ---`);
+    renderErrorPage(req, res, error);
+  });
+  console.log(`--- End Function processFormSubmissionDeleteFileRequest() ---`);
+}
+
 function renderReadFileResponse(req, res, fileName) {
   console.log(`--- Begin Function renderFileResponse() ---`);
   const template = fs.readFileSync(`./views/readFile.ejs`, "utf-8");
@@ -442,9 +486,9 @@ function renderErrorPage(req, res, err) {
   console.log(`--- Begin Function renderErrorPage() ---`);
   console.log(err.toString());
   const template = fs.readFileSync(`./views/error.ejs`, "utf-8");
-      let html = ejs.render(template, {
-        errorText: err.toString(),
-      });
-      res.end(html);
+  let html = ejs.render(template, {
+    errorText: err.toString(),
+  });
+  res.end(html);
   console.log(`--- End Function renderErrorPage() ---`);
 }
