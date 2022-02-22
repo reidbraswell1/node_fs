@@ -14,6 +14,7 @@
         <div class="directory">
           <label for="file-directory">Directory Listing: "<%=dirPath%>"</label>
           <textarea
+            disabled="true"
             name="file-directory"
             id="file-directory"
             cols="30"
@@ -29,7 +30,7 @@
           </div>
           <div class="file-action">
             <label for="file-action">Action</label>
-            <select name="file-action" id="file-action" required >
+            <select name="file-action" id="file-action" required>
               <option value="">Select</option>
               <option value="Add">Add</option>
               <option value="Update">Update</option>
@@ -56,18 +57,5 @@
         </form>
       </div>
     </div>
-    <script>
-      let fileAction = document.getElementById("file-action");
-      let fileContentsContainer = document.getElementById(
-        "file-contents-container"
-      );
-      fileAction.addEventListener("change", function () {
-        if (fileAction.value == "Add") {
-          fileContentsContainer.style.display = "flex";
-        } else {
-          fileContentsContainer.style.display = "none";
-        }
-      });
-    </script>
   </body>
 </html>
