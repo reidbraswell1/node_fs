@@ -184,6 +184,10 @@ function renderHomePage(req, res, error) {
     .catch(function (error) {});
 }
 
+// Render Pages Function
+// This function will render an ejs template based on the
+// page name passed to it. fileName is required but err can
+// be null or spaces. 
 function renderPages(req, res, page, fileName, err) {
   console.log(`--- Begin Function renderPages() ---`);
   switch (page) {
@@ -247,6 +251,8 @@ function renderPages(req, res, page, fileName, err) {
 }
 
 // Serve stylesheets
+// This function reads stylesheets and writes them back
+// to the requesting url based on the stylesheet variable
 function serveStyleSheets(req, res, stylesheet) {
   console.log(`---Begin Function serveStyleSheets() ---`);
   res.writeHead(200, { "Content-Type": "text/css" });
@@ -295,6 +301,7 @@ function serveStyleSheets(req, res, stylesheet) {
   console.log(`---End Function serveStyleSheets() ---`);
 }
 
+// Function to process incomming request from the index page
 function processFormSubmissionRequest(req, res, postParams) {
   console.log(`--- Begin Function processPostRequest() ---`);
   console.log(`Request Body: ${postParams}`);
@@ -358,6 +365,8 @@ function processFormSubmissionRequest(req, res, postParams) {
   console.log(`${selectOption}`);
   console.log(`--- End Function processPostRequest() ---`);
 }
+
+// Function to process an add file request
 function processFormSubmissionAddFileRequest(req, res, postParams) {
   console.log(`--- Begin Function processFormSubmissionAddFileRequest() ---`);
   let fileName = postParams.get("file-name");
@@ -377,6 +386,9 @@ function processFormSubmissionAddFileRequest(req, res, postParams) {
   console.log(`--- End Function processFormSubmissionAddFileRequest() ---`);
 }
 
+// Function to process an update file request
+// User is allowed to overwrite the file with whatever contents
+// they enter in the text area.
 function processFormSubmissionUpdateFileRequest(req, res, postParams) {
   console.log(
     `--- Begin Function processFormSubmissionUpdateFileRequest() ---`
@@ -399,6 +411,8 @@ function processFormSubmissionUpdateFileRequest(req, res, postParams) {
   console.log(`--- End Function processFormSubmissionUpdateFileRequest() ---`);
 }
 
+// Function to process a delete file request. 
+// file will be deleted then a redirect to the index page.
 function processFormDeleteFileRequest(req, res, postParams) {
   console.log(
     `--- Begin Function processFormSubmissionDeleteFileRequest() ---`
@@ -420,58 +434,8 @@ function processFormDeleteFileRequest(req, res, postParams) {
   console.log(`--- End Function processFormSubmissionDeleteFileRequest() ---`);
 }
 
-function renderReadFileResponse(req, res, fileName) {
-  console.log(`--- Begin Function renderFileResponse() ---`);
-  const template = fs.readFileSync(`./views/readFile.ejs`, "utf-8");
-  readFile(`${baseDir}/${fileName}`)
-    .then(function (message) {
-      let fileContents = message;
-      let html = ejs.render(template, {
-        fileName: fileName,
-        fileContents: message,
-      });
-      console.log("here readFile" + message);
-      res.end(html);
-    })
-    .catch(function (error) {
-      console.log(
-        "An error occurred in function renderReadFileResponse readFile catch"
-      );
-    });
-  console.log(`--- End Function renderFileResponse() ---`);
-}
-
-function renderAddFileResponse(req, res, fileName) {
-  console.log(`--- Begin Function renderAddFileResponse() ---`);
-  const template = fs.readFileSync(`./views/addFile.ejs`, "utf-8");
-  let html = ejs.render(template, {
-    fileName: fileName,
-  });
-  res.end(html);
-  console.log(`--- End Function renderAddFileResponse() ---`);
-}
-
-function renderUpdateFileResponse(req, res, fileName) {
-  console.log(`--- Begin Function renderFileResponse() ---`);
-  const template = fs.readFileSync(`./views/updateFile.ejs`, "utf-8");
-  readFile(`${baseDir}/${fileName}`)
-    .then(function (message) {
-      let fileContents = message;
-      let html = ejs.render(template, {
-        fileName: fileName,
-        fileContents: message,
-      });
-      console.log("here readFile" + message);
-      res.end(html);
-    })
-    .catch(function (error) {
-      console.log(
-        "An error occurred in function renderReadFileResponse readFile catch"
-      );
-    });
-  console.log(`--- End Function renderUpdateFileResponse() ---`);
-}
-
+// Function to render an error page based on the error
+// in the err variable.
 function renderErrorPage(req, res, err) {
   console.log(`--- Begin Function renderErrorPage() ---`);
   console.log(err.toString());
