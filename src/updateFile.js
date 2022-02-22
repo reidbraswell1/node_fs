@@ -5,7 +5,7 @@ export function updateFile(fileName, data) {
   return new Promise(function (resolve, reject) {
     if (fs.existsSync(fileName)) {
       console.log(`${fileName} exists updating`);
-      fs.appendFile(fileName, data, "utf-8", function (err) {
+      fs.writeFile(fileName, data, "utf-8", function (err) {
         if (err) {
           reject(`Unable to update file ${fileName}`);
         }
