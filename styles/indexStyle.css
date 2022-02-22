@@ -24,6 +24,11 @@ textarea {
     font-size:1.2rem;
 }
 
+.red {
+    color: red;
+    font-size: 1.2rem;
+}
+
 .formk {
     display: flex;
 }
