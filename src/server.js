@@ -60,26 +60,31 @@ export const server = http.createServer((req, res) => {
         break;
       case "/styles/indexStyle.css":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        log(req.method, req.url, res.statusCode);
         serveStyleSheets(req, res, "indexStyle.css");
         console.log(`--- End Case ${urlToRoute} Route ---`);
         break;
       case "/styles/readFileStyle.css":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        log(req.method, req.url, res.statusCode);
         serveStyleSheets(req, res, "readFileStyle.css");
         console.log(`--- End Case ${urlToRoute} Route --- `);
         break;
       case "/styles/addFileStyle.css":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        log(req.method, req.url, res.statusCode);
         serveStyleSheets(req, res, "addFileStyle.css");
         console.log(`--- End Case ${urlToRoute} Route --- `);
         break;
       case "/styles/updateFileStyle.css":
         console.log(`--- Begin Case ${urlToRoute} Route`);
+        log(req.method, req.url, res.statusCode);
         serveStyleSheets(req, res, "updateFileStyle.css");
         console.log(`--- Begin Case ${urlToRoute} Route`);
         break;
       case "/styles/errorStyle.css":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        log(req.method, req.url, res.statusCode);
         serveStyleSheets(req, res, "errorStyle.css");
         console.log(`--- End Case ${urlToRoute} Route ---`);
       case "/form-submission":
@@ -103,6 +108,7 @@ export const server = http.createServer((req, res) => {
         break;
       case "/form-submission-add-file":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        log(req.method, req.url, res.statusCode);
         switch (req.method) {
           case "POST":
             console.log(`Begin POST Method`);
@@ -120,6 +126,7 @@ export const server = http.createServer((req, res) => {
         break;
       case "/form-submission-update-file": {
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        log(req.method, req.url, res.statusCode);
         switch (req.method) {
           case "POST":
             console.log(`Begin POST Method`);
@@ -136,6 +143,8 @@ export const server = http.createServer((req, res) => {
       }
       default:
         {
+        console.log(`--- End Case ${urlToRoute} Route ---`);
+        log(req.method, req.url, res.statusCode);
           renderErrorPage(
             req,
             res,
