@@ -9,7 +9,7 @@ import { runInNewContext } from "vm";
 import { createFile } from "./createFile.js";
 import { updateFile } from "./updateFile.js";
 import { deleteFile } from "./deleteFile.js";
-import { logger } from "./logger.js";
+import { log } from "./logger.js";
 import { exit } from "process";
 
 const serverPort = 3000;
@@ -54,6 +54,7 @@ export const server = http.createServer((req, res) => {
     switch (urlToRoute) {
       case "/":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        log(req.method, req.url, res.statusCode);
         renderHomePage(req, res);
         console.log(`--- End Case ${urlToRoute} Route ---`);
         break;
@@ -83,6 +84,7 @@ export const server = http.createServer((req, res) => {
         console.log(`--- End Case ${urlToRoute} Route ---`);
       case "/form-submission":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        log(req.method, req.url, res.statusCode);
         switch (req.method) {
           case "POST":
             console.log(`Begin POST Method`);
@@ -165,7 +167,7 @@ function renderHomePage(req, res, error) {
       // Replace all commas with new lines
       listing = listing.replace(/,/g, "\n");
 
-      readFile(`${baseDir}/test-file_1.html`)
+      readFile(`./${baseDir}/HelloWorld.txt`)
         .then(function (message) {
           let fileContents = message;
           let html = ejs.render(template, {
