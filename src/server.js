@@ -38,8 +38,9 @@ export const server = http.createServer((req, res) => {
   });
 
   // Handle Response Error's
-  res.on("error", (err) => {
+  res.on("error", function (err) {
     console.log(`--- Response Error - ${err} ---`);
+    renderErrorPage(req, res, err);
     return;
   });
 
@@ -87,39 +88,45 @@ export const server = http.createServer((req, res) => {
         log(req.method, req.url, res.statusCode);
         serveStyleSheets(req, res, "errorStyle.css");
         console.log(`--- End Case ${urlToRoute} Route ---`);
+        break;
       case "/form-submission":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
         log(req.method, req.url, res.statusCode);
         switch (req.method) {
           case "POST":
-            console.log(`Begin POST Method`);
+            console.log(`Begin ${req.method} Method ${req.url}`);
             let postParams = new URLSearchParams(chunks.toString());
             processFormSubmissionRequest(req, res, postParams);
-            console.log(`End POST Method`);
+            console.log(`End ${req.method} Method ${req.url}`);
             break;
           case "GET":
-            console.log(`Begin GET Method ${req.url}`);
-            let getParams = new URLSearchParams(req.url);
-            processFormSubmissionRequest(req, res, getParams);
-            console.log(`End GET Method ${req.url}`);
+            console.log(`Begin ${req.method} Method ${req.url}`);
+            res.emit("error", `${req.url} ${req.method} Method Not Allowed!`);
+            console.log(`End ${req.method} Method ${req.url}`);
             break;
         }
         console.log(`--- End Case ${urlToRoute} Route ---`);
         break;
       case "/form-submission-add-file":
-        console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        console.log(`Begin ${req.method} Method ${req.url}`);
         log(req.method, req.url, res.statusCode);
         switch (req.method) {
           case "POST":
-            console.log(`Begin POST Method`);
+            console.log(`Begin ${req.method} Method ${req.url}`);
             let postParams = new URLSearchParams(chunks.toString());
             console.log(`Post Parameters = ${postParams}`);
             processFormSubmissionAddFileRequest(req, res, postParams);
-            console.log(`End POST Method`);
+            console.log(`End ${req.method} Method ${req.url}`);
             break;
           case "GET":
-            console.log(`Begin GET Method`);
-            console.log(`End GET Method`);
+            console.log(`Begin ${req.method} Method ${req.url}`);
+            res.emit("error", `${req.url} ${req.method} Method Not Allowed!`);
+            console.log(`End ${req.method} Method ${req.url}`);
+            break;
+          default:
+            console.log(`Begin ${req.method} Method ${req.url}`);
+            res.emit("error", `${req.url} ${req.method} Method Not Allowed!`);
+            console.log(`End ${req.method} Method ${req.url}`);
             break;
         }
         console.log(`--- End Case ${urlToRoute} Route ---`);
@@ -129,28 +136,28 @@ export const server = http.createServer((req, res) => {
         log(req.method, req.url, res.statusCode);
         switch (req.method) {
           case "POST":
-            console.log(`Begin POST Method`);
+            console.log(`Begin ${req.method} Method ${req.url}`);
             let postParams = new URLSearchParams(chunks.toString());
             processFormSubmissionUpdateFileRequest(req, res, postParams);
-            console.log(`End POST Method`);
+            console.log(`End ${req.method} Method ${req.url}`);
             break;
           case "GET":
-            console.log(`Begin GET Method`);
-            console.log(`End GET Method`);
+            console.log(`Begin ${req.method} Method ${req.url}`);
+            res.emit("error", `${req.url} ${req.method} Method Not Allowed!`);
+            console.log(`End ${req.method} Method ${req.url}`);
+            break;
+          default: 
+            console.log(`Begin ${req.method} Method ${req.url}`);
+            res.emit("error", `${req.url} ${req.method} Method Not Allowed!`);
+            console.log(`End ${req.method} Method ${req.url}`);
             break;
         }
         break;
       }
       default:
-        {
-        console.log(`--- End Case ${urlToRoute} Route ---`);
+        console.log(`--- Begin Case ${urlToRoute} Route ---`);
         log(req.method, req.url, res.statusCode);
-          renderErrorPage(
-            req,
-            res,
-            `URL "${req.url}" Not Found On This Server`
-          );
-        }
+        res.emit("error", `URL "${req.url}" Not Found On This Server`);
         console.log(`--- End Case ${urlToRoute} Route ---`);
         break;
     }
@@ -188,7 +195,9 @@ function renderHomePage(req, res, error) {
           console.log("here" + message);
           res.end(html);
         })
-        .catch(function (error) {});
+        .catch(function (error) {
+          res.emit("error",error);
+        });
 
       //      res.write(html)
       //    res.end()
@@ -245,7 +254,6 @@ function renderPages(req, res, page, fileName, err) {
             fileName: fileName,
             fileContents: message,
           });
-          console.log("here readFile" + message);
           res.end(html);
         })
         .catch(function (error) {
@@ -393,7 +401,7 @@ function processFormSubmissionAddFileRequest(req, res, postParams) {
       res.end();
     })
     .catch(function (error) {
-      renderErrorPage(req, res, error);
+      res.emit("error", error);
     });
   console.log(`--- End Function processFormSubmissionAddFileRequest() ---`);
 }
