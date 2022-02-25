@@ -183,7 +183,7 @@ function renderHomePage(req, res, error) {
       // Replace all commas with new lines
       listing = listing.replace(/,/g, "\n");
 
-      readFile(`./${baseDir}/HelloWorld.txt`)
+      readFile(`${baseDir}/HelloWorld.txt`)
         .then(function (message) {
           let fileContents = message;
           let html = ejs.render(template, {
