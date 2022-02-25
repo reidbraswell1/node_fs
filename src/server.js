@@ -16,7 +16,7 @@ const serverPort = 3000;
 let baseDir = "scratchPad";
 
 export const server = http.createServer((req, res) => {
-  console.log("Begin createServer");
+  console.log(`--- Begin function createServer() ---`);
 
   let urlToRoute = "";
   let chunks = [];
@@ -81,7 +81,7 @@ export const server = http.createServer((req, res) => {
         console.log(`--- Begin Case ${urlToRoute} Route`);
         log(req.method, req.url, res.statusCode);
         serveStyleSheets(req, res, "updateFileStyle.css");
-        console.log(`--- Begin Case ${urlToRoute} Route`);
+        console.log(`--- End Case ${urlToRoute} Route`);
         break;
       case "/styles/errorStyle.css":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
@@ -216,7 +216,7 @@ function renderPages(req, res, page, fileName, err) {
       break;
     }
     case "readFile": {
-      console.log(`--- Begin Case readFile ---`);
+      console.log(`--- Begin Case "readFile" ---`);
       const template = fs.readFileSync(`./views/readFile.ejs`, "utf-8");
       readFile(`${baseDir}/${fileName}`)
         .then(function (message) {
@@ -232,17 +232,17 @@ function renderPages(req, res, page, fileName, err) {
             "An error occurred in function renderReadFileResponse readFile catch"
           );
         });
-      console.log(`--- End Case readFile ---`);
+      console.log(`--- End Case "readFile" ---`);
       break;
     }
     case "addFile": {
-      console.log(`--- Begin Case addFile ---`);
+      console.log(`--- Begin Case "addFile" ---`);
       const template = fs.readFileSync(`./views/addFile.ejs`, "utf-8");
       let html = ejs.render(template, {
         fileName: fileName,
       });
       res.end(html);
-      console.log(`--- End Case addFile ---`);
+      console.log(`--- End Case "addFile" ---`);
       break;
     }
     case "updateFile": {
@@ -323,14 +323,14 @@ function serveStyleSheets(req, res, stylesheet) {
 
 // Function to process incomming request from the index page
 function processFormSubmissionRequest(req, res, postParams) {
-  console.log(`--- Begin Function processPostRequest() ---`);
+  console.log(`--- Begin Function processFormSubmissionRequest() ---`);
   console.log(`Request Body: ${postParams}`);
   let selectOption = postParams.get("file-action");
   let fileName = postParams.get("file-name");
   switch (selectOption) {
     case "Read":
       // Does the file exist ?
-      console.log(`--- Begin form-submission Case Read ---`);
+      console.log(`--- Begin  Case "Read" ---`);
       if (fs.existsSync(`${baseDir}/${fileName}`)) {
         console.log(`${baseDir}/${fileName} Exists!`);
         //renderReadFileResponse(req, res, fileName);
@@ -343,7 +343,7 @@ function processFormSubmissionRequest(req, res, postParams) {
       break;
     case "Add":
       // Add file then render index page
-      console.log(`--- Begin form-submission Case Add ---`);
+      console.log(`--- Begin Case "Add" ---`);
       if (fs.existsSync(`${baseDir}/${fileName}`)) {
         console.log(`${baseDir}/${fileName} Exists!`);
         renderErrorPage(req, res, `File ${fileName} Already Exists!`);
@@ -357,7 +357,7 @@ function processFormSubmissionRequest(req, res, postParams) {
     case "Update":
       // Update file then render index page
       // Does the file exist ?
-      console.log(`--- Begin form-submission Case Update ---`);
+      console.log(`--- Begin Case "Update" ---`);
       if (fs.existsSync(`${baseDir}/${fileName}`)) {
         console.log(`${baseDir}/${fileName} Exists!`);
         //renderUpdateFileResponse(req, res, fileName);
@@ -369,7 +369,7 @@ function processFormSubmissionRequest(req, res, postParams) {
       console.log(`--- End form-submission Case Update ---`);
       break;
     case "Delete":
-      console.log(`--- Begin form-submission Case Delete ---`);
+      console.log(`--- Begin Case "Delete" ---`);
       // Delete file then render index page
       if (fs.existsSync(`${baseDir}/${fileName}`)) {
         console.log(`${baseDir}/${fileName} Exists!`);
