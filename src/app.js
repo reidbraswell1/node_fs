@@ -1,5 +1,5 @@
 import server from "./server.js";
-import { testCreateFile, testDeleteFile, testReadFile, testUpdateFile, testReadDirs } from "./test.js";
+import { testCreateFile, testDeleteFile, testReadFile, testAppendFile, testUpdateFile, testReadDirs } from "./test.js";
 
 
 const testFile = "scratchPad/HelloWorld-1.txt";
