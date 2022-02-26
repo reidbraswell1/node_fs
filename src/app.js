@@ -2,9 +2,10 @@ import server from "./server.js";
 import { testCreateFile, testDeleteFile, testReadFile, testUpdateFile, testReadDirs } from "./test.js";
 
 
-const testFile = "scratchPad/HelloWorld.txt";
-const data = "Hello World!!";
-const data2 = "Welcome to the NodeJS File System Exercise";
+const testFile = "scratchPad/HelloWorld-1.txt";
+const testFile2 = "scratchPad/HelloWorld-2.txt";
+const data = "Hello World!!\n";
+const data2 = "Welcome to the NodeJS File System Exercise!!\n";
 const testDirName = "scratchPad";
 
 testCreateFile(testFile, data);
@@ -13,3 +14,5 @@ testReadFile(testFile);
 testDeleteFile(testFile);
 testReadDirs(testDirName);
 testCreateFile(testFile, data);
+testCreateFile(testFile2, data);
+testAppendFile(testFile2, data2);
