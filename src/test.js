@@ -28,7 +28,7 @@ export function testCreateFile(testFile, data) {
 }
 
 export function testAppendFile(testFile, data) {
-    updateFile(testFile, data)
+    appendFile(testFile, data)
     .then(function (message) {
         console.log(`${message}`)
     }).catch(function (error) {
