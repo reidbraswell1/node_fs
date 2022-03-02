@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Node FS</title>
+    <link rel="stylesheet" href="styles/updateFileStyle.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <h1>Node File System</h1>
+        <h2>Append File</h2>
+        <div id="current-file-contents-container" class="file-contents">
+          <label for="current-file-contents">Current File Contents of: <span class="red"> <%=fileName%> </span></label>
+          <textarea name="current-file-contents"
+            id="current-file-contents"
+            cols="30" 
+            rows="10"><%=fileContents%></textarea>
+        </div>
+        <div id="file-contents-container" class="file-contents">
+          <form class="form" action="/form-submission-update-file" method="POST">
+            <input type="hidden" id="file-name" name="file-name" value=<%=fileName%>>
+            <label for="file-contents">File Contents of: <span class="red"> <%=fileName%> </span></label>
+            <textarea
+              name="file-contents"
+              id="file-contents"
+              cols="30"
+              rows="10"></textarea>
+            <div class="submit">
+              <button id="submit-button" type="submit" value="Submit">
+                Update
+              </button>
+          </form>
+            <button type="button" onclick="window.location.href='/'">Index Page</button>
+      </div>
+    </div>
+  </body>
+</html>
