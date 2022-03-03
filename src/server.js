@@ -160,6 +160,17 @@ export const server = http.createServer((req, res) => {
         }
         break;
       }
+      case "form-submission-append-file":
+        switch (req.method) {
+          case "POST":
+            break;
+          case "GET":
+            break;
+          default:
+            break;
+
+        }
+        break;
       default:
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
         log(req.method, req.url, res.statusCode);
