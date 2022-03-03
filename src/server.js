@@ -83,6 +83,12 @@ export const server = http.createServer((req, res) => {
         serveStyleSheets(req, res, "updateFileStyle.css");
         console.log(`--- End Case ${urlToRoute} Route`);
         break;
+      case "/styles/appendFileStyle.css":
+        console.log(`--- Begin Case ${urlToRoute} Route`);
+        log(req.method, req.url, res.statusCode);
+        serveStyleSheets(req, res, "appendFileStyle.css");
+        console.log(`--- End Case ${urlToRoute} Route`);
+        break;
       case "/styles/errorStyle.css":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
         log(req.method, req.url, res.statusCode);
@@ -146,7 +152,7 @@ export const server = http.createServer((req, res) => {
             res.emit("error", `${req.url} ${req.method} Method Not Allowed!`);
             console.log(`End ${req.method} Method ${req.url}`);
             break;
-          default: 
+          default:
             console.log(`Begin ${req.method} Method ${req.url}`);
             res.emit("error", `${req.url} ${req.method} Method Not Allowed!`);
             console.log(`End ${req.method} Method ${req.url}`);
@@ -190,13 +196,13 @@ function renderHomePage(req, res, error) {
             dirPath: baseDir,
             dirList: listing,
             fileContents: message,
-            errorMessage: error
+            errorMessage: error,
           });
           console.log("here" + message);
           res.end(html);
         })
         .catch(function (error) {
-          res.emit("error",error);
+          res.emit("error", error);
         });
 
       //      res.write(html)
@@ -208,7 +214,7 @@ function renderHomePage(req, res, error) {
 // Render Pages Function
 // This function will render an ejs template based on the
 // page name passed to it. fileName is required but err can
-// be null or spaces. 
+// be null or spaces.
 function renderPages(req, res, page, fileName, err) {
   console.log(`--- Begin Function renderPages() ---`);
   switch (page) {
@@ -364,7 +370,7 @@ function processFormSubmissionRequest(req, res, postParams) {
         renderPages(req, res, "updateFile", fileName, null);
       } else {
         console.log(`${baseDir}/File "${fileName}" Does not exist!`);
-        renderErrorPage(req, res, `File "${fileName}" Does Not Exist!`) 
+        renderErrorPage(req, res, `File "${fileName}" Does Not Exist!`);
       }
       console.log(`--- End form-submission Case Update ---`);
       break;
@@ -374,8 +380,7 @@ function processFormSubmissionRequest(req, res, postParams) {
       if (fs.existsSync(`${baseDir}/${fileName}`)) {
         console.log(`${baseDir}/${fileName} Exists!`);
         processFormDeleteFileRequest(req, res, postParams);
-      }
-      else {
+      } else {
         console.log(`${baseDir}/File "${fileName}" Does not exist!`);
         renderErrorPage(req, res, `File "${fileName}" Does Not Exist!`);
       }
@@ -431,7 +436,7 @@ function processFormSubmissionUpdateFileRequest(req, res, postParams) {
   console.log(`--- End Function processFormSubmissionUpdateFileRequest() ---`);
 }
 
-// Function to process a delete file request. 
+// Function to process a delete file request.
 // file will be deleted then a redirect to the index page.
 function processFormDeleteFileRequest(req, res, postParams) {
   console.log(
@@ -440,17 +445,17 @@ function processFormDeleteFileRequest(req, res, postParams) {
   let fileName = postParams.get("file-name");
   console.log(`File Name = ${fileName}`);
   deleteFile(`${baseDir}/${fileName}`)
-  .then(function (message) {
-    console.log(`--- Delete Message ${message} ---`);
-    res.writeHead(302, {
-      location: "/",
+    .then(function (message) {
+      console.log(`--- Delete Message ${message} ---`);
+      res.writeHead(302, {
+        location: "/",
+      });
+      res.end();
+    })
+    .catch(function (error) {
+      console.log(`--- Delete Error ${error} ---`);
+      renderErrorPage(req, res, error);
     });
-    res.end();
-  })
-  .catch(function(error) {
-    console.log(`--- Delete Error ${error} ---`);
-    renderErrorPage(req, res, error);
-  });
   console.log(`--- End Function processFormSubmissionDeleteFileRequest() ---`);
 }
 
