@@ -394,6 +394,17 @@ function processFormSubmissionRequest(req, res, postParams) {
       }
       console.log(`--- End form-submission Case Update ---`);
       break;
+    case "Append":
+      console.log(`--- Begin Case "Update" ---`);
+      if (fs.existsSync(`${baseDir}/${fileName}`)) {
+        console.log(`${baseDir}/${fileName} Exists!`);
+        //renderUpdateFileResponse(req, res, fileName);
+        renderPages(req, res, "appendFile", fileName, null);
+      } else {
+        console.log(`${baseDir}/File "${fileName}" Does not exist!`);
+        renderErrorPage(req, res, `File "${fileName}" Does Not Exist!`);
+      }
+      console.log(`--- End form-submission Case Update ---`);
     case "Delete":
       console.log(`--- Begin Case "Delete" ---`);
       // Delete file then render index page
