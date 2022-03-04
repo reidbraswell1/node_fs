@@ -289,6 +289,24 @@ function renderPages(req, res, page, fileName, err) {
         });
       break;
     }
+    case "appendFile": {
+      const template = fs.readFileSync(`./views/appendFile.ejs`, "utf-8");
+      readFile(`${baseDir}/${fileName}`)
+        .then(function (message) {
+          let fileContents = message;
+          let html = ejs.render(template, {
+            fileName: fileName,
+            fileContents: message,
+          });
+          res.end(html);
+        })
+        .catch(function (error) {
+          console.log(
+            "An error occurred in function renderReadFileResponse readFile catch"
+          );
+        });
+      break;
+    }
     case "deleteFile": {
       break;
     }
