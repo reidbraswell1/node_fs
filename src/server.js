@@ -1,7 +1,7 @@
 //const http = require("http");
 import http from "http";
 import ejs from "ejs";
-import fs from "fs";
+import fs, { readFileSync } from "fs";
 import { readDir } from "./readDirs.js";
 
 import { readFile } from "./readFile.js";
@@ -59,6 +59,12 @@ export const server = http.createServer((req, res) => {
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
         log(req.method, req.url, res.statusCode);
         renderHomePage(req, res);
+        console.log(`--- End Case ${urlToRoute} Route ---`);
+        break;
+      case "/about":
+        console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        log(req.method, req.url, res.statusCode);
+        renderPages(req, res, "about");
         console.log(`--- End Case ${urlToRoute} Route ---`);
         break;
       case "/styles/indexStyle.css":
@@ -250,29 +256,47 @@ function renderPages(req, res, page, fileName, err) {
     case "index": {
       break;
     }
+    case "about":
+      console.log(`--- Begin Case "about" ---`);
+      try {
+        const htmlFile = fs.readFileSync(`./views/about.html`, "utf-8");
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end(htmlFile);
+      } catch (error) {
+        res.emit("error", error.toString());
+      }
+      break;
     case "readFile": {
       console.log(`--- Begin Case "readFile" ---`);
-      const template = fs.readFileSync(`./views/readFile.ejs`, "utf-8");
-      readFile(`${baseDir}/${fileName}`)
-        .then(function (message) {
-          let fileContents = message;
-          let html = ejs.render(template, {
-            fileName: fileName,
-            fileContents: message,
+      try {
+        const template = fs.readFileSync(`./views/readFile.ejs`, "utf-8");
+        readFile(`${baseDir}/${fileName}`)
+          .then(function (message) {
+            let fileContents = message;
+            let html = ejs.render(template, {
+              fileName: fileName,
+              fileContents: message,
+            });
+            res.end(html);
+          })
+          .catch(function (error) {
+            console.log(
+              "An error occurred in function renderReadFileResponse readFile catch"
+            );
           });
-          res.end(html);
-        })
-        .catch(function (error) {
-          console.log(
-            "An error occurred in function renderReadFileResponse readFile catch"
-          );
-        });
+      } catch (error) {
+        res.emit("error", error.toString());
+      }
       console.log(`--- End Case "readFile" ---`);
       break;
     }
     case "addFile": {
       console.log(`--- Begin Case "addFile" ---`);
-      const template = fs.readFileSync(`./views/addFile.ejs`, "utf-8");
+      try {
+        const template = fs.readFileSync(`./views/addFile.ejs`, "utf-8");
+      } catch (error) {
+        res.emit("error", error.toString());
+      }
       let html = ejs.render(template, {
         fileName: fileName,
       });
@@ -280,49 +304,54 @@ function renderPages(req, res, page, fileName, err) {
       console.log(`--- End Case "addFile" ---`);
       break;
     }
-    case "updateFile": {
-      const template = fs.readFileSync(`./views/updateFile.ejs`, "utf-8");
-      readFile(`${baseDir}/${fileName}`)
-        .then(function (message) {
-          let fileContents = message;
-          let html = ejs.render(template, {
-            fileName: fileName,
-            fileContents: message,
+    case "updateFile":
+      try {
+        const template = fs.readFileSync(`./views/updateFile.ejs`, "utf-8");
+        readFile(`${baseDir}/${fileName}`)
+          .then(function (message) {
+            let fileContents = message;
+            let html = ejs.render(template, {
+              fileName: fileName,
+              fileContents: message,
+            });
+            res.end(html);
+          })
+          .catch(function (error) {
+            console.log(
+              "An error occurred in function renderReadFileResponse readFile catch"
+            );
+            res.emit(
+              "error",
+              "An error occurred in function renderUpdateFileResponse readFile."
+            );
           });
-          res.end(html);
-        })
-        .catch(function (error) {
-          console.log(
-            "An error occurred in function renderReadFileResponse readFile catch"
-          );
-          res.emit(
-            "error",
-            "An error occurred in function renderUpdateFileResponse readFile."
-          );
-        });
+      } catch (error) {
+        res.emit("error", error.toString());
+      }
       break;
-    }
-    case "appendFile": {
-      const template = fs.readFileSync(`./views/appendFile.ejs`, "utf-8");
-      readFile(`${baseDir}/${fileName}`)
-        .then(function (message) {
-          let fileContents = message;
-          let html = ejs.render(template, {
-            fileName: fileName,
-            fileContents: message,
+    case "appendFile":
+      try {
+        const template = fs.readFileSync(`./views/appendFile.ejs`, "utf-8");
+        readFile(`${baseDir}/${fileName}`)
+          .then(function (message) {
+            let fileContents = message;
+            let html = ejs.render(template, {
+              fileName: fileName,
+              fileContents: message,
+            });
+            res.end(html);
+          })
+          .catch(function (error) {
+            console.log(
+              "An error occurred in function renderReadFileResponse readFile catch"
+            );
           });
-          res.end(html);
-        })
-        .catch(function (error) {
-          console.log(
-            "An error occurred in function renderReadFileResponse readFile catch"
-          );
-        });
+      } catch (error) {
+        res.emit("error", error.toString());
+      }
       break;
-    }
-    case "deleteFile": {
+    case "deleteFile":
       break;
-    }
   }
   console.log(`--- End Function renderPages() ---`);
 }
@@ -335,42 +364,48 @@ function serveStyleSheets(req, res, stylesheet) {
   res.writeHead(200, { "Content-Type": "text/css" });
   switch (stylesheet) {
     case "indexStyle.css": {
-      let fileStream = fs.createReadStream(`./styles/indexStyle.css`, "utf-8");
-      let css = fs.readFileSync(`./styles/indexStyle.css`, "utf-8");
-      res.write(css);
+      try {
+        let css = fs.readFileSync(`./styles/indexStyle.css`, "utf-8");
+        res.write(css);
+      } catch (error) {
+        res.emit("error", error.toString());
+      }
       break;
     }
     case "addFileStyle.css": {
-      let fileStream = fs.createReadStream(
-        `./styles/addFileStyle.css`,
-        "utf-8"
-      );
-      let css = fs.readFileSync(`./styles/addFileStyle.css`, "utf-8");
-      res.write(css);
+      try {
+        let css = fs.readFileSync(`./styles/addFileStyle.css`, "utf-8");
+        res.write(css);
+      } catch (error) {
+        res.emit("error", error.toString());
+      }
       break;
     }
     case "readFileStyle.css": {
-      let fileStream = fs.createReadStream(
-        `./styles/readFileStyle.css`,
-        "utf-8"
-      );
-      let css = fs.readFileSync(`./styles/readFileStyle.css`, "utf-8");
-      res.write(css);
+      try {
+        let css = fs.readFileSync(`./styles/readFileStyle.css`, "utf-8");
+        res.write(css);
+      } catch (error) {
+        res.emit("error", error.toString());
+      }
       break;
     }
     case "updateFileStyle.css": {
-      let fileStream = fs.createReadStream(
-        `./styles/updateFileStyle.css`,
-        "utf-8"
-      );
-      let css = fs.readFileSync(`./styles/updateFileStyle.css`, "utf-8");
-      res.write(css);
+      try {
+        let css = fs.readFileSync(`./styles/updateFileStyle.css`, "utf-8");
+        res.write(css);
+      } catch (error) {
+        res.emit("error", error.toString());
+      }
       break;
     }
     case "errorStyle.css": {
-      let fileStream = fs.createReadStream(`./styles/errorStyle.css`, "utf-8");
-      let css = fs.readFileSync(`./styles/errorStyle.css`, "utf-8");
-      res.write(css);
+      try {
+        let css = fs.readFileSync(`./styles/errorStyle.css`, "utf-8");
+        res.write(css);
+      } catch (error) {
+        res.emit("error", error.toString());
+      }
       break;
     }
   }
@@ -552,10 +587,14 @@ function processFormDeleteFileRequest(req, res, postParams) {
 function renderErrorPage(req, res, err) {
   console.log(`--- Begin Function renderErrorPage() ---`);
   console.log(err.toString());
-  const template = fs.readFileSync(`./views/error.ejs`, "utf-8");
-  let html = ejs.render(template, {
-    errorText: err.toString(),
-  });
-  res.end(html);
+  try {
+    const template = fs.readFileSync(`./views/error.ejs`, "utf-8");
+    let html = ejs.render(template, {
+      errorText: err.toString(),
+    });
+    res.end(html);
+  } catch (error) {
+    res.emit("error", error.toString());
+  }
   console.log(`--- End Function renderErrorPage() ---`);
 }
