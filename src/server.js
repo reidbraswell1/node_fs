@@ -166,7 +166,7 @@ export const server = http.createServer((req, res) => {
           case "POST":
             console.log(`Begin ${req.method} Method ${req.url}`);
             let postParams = new URLSearchParams(chunks.toString());
-            processFormSubmissionUpdateFileRequest(req, res, postParams);
+            processFormSubmissionAppendFileRequest(req, res, postParams);
             console.log(`End ${req.method} Method ${req.url}`);
             break;
           case "GET":
@@ -486,6 +486,31 @@ function processFormSubmissionUpdateFileRequest(req, res, postParams) {
       renderErrorPage(req, res, error);
     });
   console.log(`--- End Function processFormSubmissionUpdateFileRequest() ---`);
+}
+
+// Function to process an append file request
+// User is allowed to append text to the end of the file with 
+// whatever contents they enter in the text area.
+function processFormSubmissionAppendFileRequest(req, res, postParams) {
+  console.log(
+    `--- Begin Function processFormSubmissionAppendFileRequest() ---`
+  );
+  let fileName = postParams.get("file-name");
+  console.log(`File Name = ${fileName}`);
+  let fileContents = postParams.get("file-contents");
+  console.log(`File Contents = ${fileContents}`);
+  appendFile(`${baseDir}/${fileName}`, fileContents)
+    .then(function (message) {
+      console.log(`--- Append File Return Message: ${message} ---`);
+      res.writeHead(302, {
+        location: "/",
+      });
+      res.end();
+    })
+    .catch(function (error) {
+      renderErrorPage(req, res, error);
+    });
+  console.log(`--- End Function processFormSubmissionAppendFileRequest() ---`);
 }
 
 // Function to process a delete file request.
