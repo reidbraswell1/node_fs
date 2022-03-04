@@ -22,7 +22,7 @@
         <div id="file-contents-container" class="file-contents">
           <form class="form" action="/form-submission-update-file" method="POST">
             <input type="hidden" id="file-name" name="file-name" value=<%=fileName%>>
-            <label for="file-contents">File Contents of: <span class="red"> <%=fileName%> </span></label>
+            <label for="file-contents">Append Text Below to: <span class="red"> <%=fileName%> </span></label>
             <textarea
               name="file-contents"
               id="file-contents"
@@ -30,7 +30,7 @@
               rows="10"></textarea>
             <div class="submit">
               <button id="submit-button" type="submit" value="Submit">
-                Update
+                Append 
               </button>
           </form>
             <button type="button" onclick="window.location.href='/'">Index Page</button>
