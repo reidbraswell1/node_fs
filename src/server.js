@@ -286,6 +286,7 @@ function renderPages(req, res, page, fileName, err) {
           console.log(
             "An error occurred in function renderReadFileResponse readFile catch"
           );
+          res.emit("error", "An error occurred in function renderUpdateFileResponse readFile.")
         });
       break;
     }
