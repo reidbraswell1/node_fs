@@ -363,7 +363,7 @@ function serveStyleSheets(req, res, stylesheet) {
   console.log(`---Begin Function serveStyleSheets() ---`);
   res.writeHead(200, { "Content-Type": "text/css" });
   switch (stylesheet) {
-    case "indexStyle.css": {
+    case "indexStyle.css":
       try {
         let css = fs.readFileSync(`./styles/indexStyle.css`, "utf-8");
         res.write(css);
@@ -371,8 +371,7 @@ function serveStyleSheets(req, res, stylesheet) {
         res.emit("error", error.toString());
       }
       break;
-    }
-    case "addFileStyle.css": {
+    case "addFileStyle.css":
       try {
         let css = fs.readFileSync(`./styles/addFileStyle.css`, "utf-8");
         res.write(css);
@@ -380,8 +379,7 @@ function serveStyleSheets(req, res, stylesheet) {
         res.emit("error", error.toString());
       }
       break;
-    }
-    case "readFileStyle.css": {
+    case "readFileStyle.css":
       try {
         let css = fs.readFileSync(`./styles/readFileStyle.css`, "utf-8");
         res.write(css);
@@ -389,8 +387,7 @@ function serveStyleSheets(req, res, stylesheet) {
         res.emit("error", error.toString());
       }
       break;
-    }
-    case "updateFileStyle.css": {
+    case "updateFileStyle.css":
       try {
         let css = fs.readFileSync(`./styles/updateFileStyle.css`, "utf-8");
         res.write(css);
@@ -398,8 +395,7 @@ function serveStyleSheets(req, res, stylesheet) {
         res.emit("error", error.toString());
       }
       break;
-    }
-    case "errorStyle.css": {
+    case "errorStyle.css":
       try {
         let css = fs.readFileSync(`./styles/errorStyle.css`, "utf-8");
         res.write(css);
@@ -408,7 +404,6 @@ function serveStyleSheets(req, res, stylesheet) {
       }
       break;
     }
-  }
   res.end();
   console.log(`---End Function serveStyleSheets() ---`);
 }
