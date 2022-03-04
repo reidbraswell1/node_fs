@@ -8,6 +8,7 @@ import { readFile } from "./readFile.js";
 import { runInNewContext } from "vm";
 import { createFile } from "./createFile.js";
 import { updateFile } from "./updateFile.js";
+import { appendFile } from "./appendFile.js";
 import { deleteFile } from "./deleteFile.js";
 import { log } from "./logger.js";
 import { exit } from "process";
@@ -138,30 +139,35 @@ export const server = http.createServer((req, res) => {
         }
         console.log(`--- End Case ${urlToRoute} Route ---`);
         break;
-      case "/form-submission-update-file": {
+      case "/form-submission-update-file":
+        {
+          console.log(`--- Begin Case ${urlToRoute} Route ---`);
+          log(req.method, req.url, res.statusCode);
+          switch (req.method) {
+            case "POST":
+              console.log(`Begin ${req.method} Method ${req.url}`);
+              let postParams = new URLSearchParams(chunks.toString());
+              processFormSubmissionUpdateFileRequest(req, res, postParams);
+              console.log(`End ${req.method} Method ${req.url}`);
+              break;
+            case "GET":
+              console.log(`Begin ${req.method} Method ${req.url}`);
+              res.emit("error", `${req.url} ${req.method} Method Not Allowed!`);
+              console.log(`End ${req.method} Method ${req.url}`);
+              break;
+            default:
+              console.log(`Begin ${req.method} Method ${req.url}`);
+              res.emit("error", `${req.url} ${req.method} Method Not Allowed!`);
+              console.log(`End ${req.method} Method ${req.url}`);
+              break;
+          }
+        }
+        console.log(`--- End Case ${urlToRoute} Route ---`);
+        log(req.method, req.url, res.statusCode);
+        break;
+      case "/form-submission-append-file":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
         log(req.method, req.url, res.statusCode);
-        switch (req.method) {
-          case "POST":
-            console.log(`Begin ${req.method} Method ${req.url}`);
-            let postParams = new URLSearchParams(chunks.toString());
-            processFormSubmissionUpdateFileRequest(req, res, postParams);
-            console.log(`End ${req.method} Method ${req.url}`);
-            break;
-          case "GET":
-            console.log(`Begin ${req.method} Method ${req.url}`);
-            res.emit("error", `${req.url} ${req.method} Method Not Allowed!`);
-            console.log(`End ${req.method} Method ${req.url}`);
-            break;
-          default:
-            console.log(`Begin ${req.method} Method ${req.url}`);
-            res.emit("error", `${req.url} ${req.method} Method Not Allowed!`);
-            console.log(`End ${req.method} Method ${req.url}`);
-            break;
-        }
-        break;
-      }
-      case "form-submission-append-file":
         switch (req.method) {
           case "POST":
             console.log(`Begin ${req.method} Method ${req.url}`);
@@ -180,6 +186,8 @@ export const server = http.createServer((req, res) => {
             console.log(`End ${req.method} Method ${req.url}`);
             break;
         }
+        console.log(`--- End Case ${urlToRoute} Route ---`);
+        log(req.method, req.url, res.statusCode);
         break;
       default:
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
@@ -287,7 +295,10 @@ function renderPages(req, res, page, fileName, err) {
           console.log(
             "An error occurred in function renderReadFileResponse readFile catch"
           );
-          res.emit("error", "An error occurred in function renderUpdateFileResponse readFile.")
+          res.emit(
+            "error",
+            "An error occurred in function renderUpdateFileResponse readFile."
+          );
         });
       break;
     }
@@ -489,7 +500,7 @@ function processFormSubmissionUpdateFileRequest(req, res, postParams) {
 }
 
 // Function to process an append file request
-// User is allowed to append text to the end of the file with 
+// User is allowed to append text to the end of the file with
 // whatever contents they enter in the text area.
 function processFormSubmissionAppendFileRequest(req, res, postParams) {
   console.log(
@@ -498,7 +509,7 @@ function processFormSubmissionAppendFileRequest(req, res, postParams) {
   let fileName = postParams.get("file-name");
   console.log(`File Name = ${fileName}`);
   let fileContents = postParams.get("file-contents");
-  console.log(`File Contents = ${fileContents}`);
+  console.log(`File Contents = ${fileContents}\n`);
   appendFile(`${baseDir}/${fileName}`, fileContents)
     .then(function (message) {
       console.log(`--- Append File Return Message: ${message} ---`);
