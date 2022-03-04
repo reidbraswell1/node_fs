@@ -163,12 +163,21 @@ export const server = http.createServer((req, res) => {
       case "form-submission-append-file":
         switch (req.method) {
           case "POST":
+            console.log(`Begin ${req.method} Method ${req.url}`);
+            let postParams = new URLSearchParams(chunks.toString());
+            processFormSubmissionUpdateFileRequest(req, res, postParams);
+            console.log(`End ${req.method} Method ${req.url}`);
             break;
           case "GET":
+            console.log(`Begin ${req.method} Method ${req.url}`);
+            res.emit("error", `${req.url} ${req.method} Method Not Allowed!`);
+            console.log(`End ${req.method} Method ${req.url}`);
             break;
           default:
+            console.log(`Begin ${req.method} Method ${req.url}`);
+            res.emit("error", `${req.url} ${req.method} Method Not Allowed!`);
+            console.log(`End ${req.method} Method ${req.url}`);
             break;
-
         }
         break;
       default:
