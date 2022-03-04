@@ -20,7 +20,7 @@
             rows="10"><%=fileContents%></textarea>
         </div>
         <div id="file-contents-container" class="file-contents">
-          <form class="form" action="/form-submission-update-file" method="POST">
+          <form class="form" action="/form-submission-append-file" method="POST">
             <input type="hidden" id="file-name" name="file-name" value=<%=fileName%>>
             <label for="file-contents">Append Text Below to: <span class="red"> <%=fileName%> </span></label>
             <textarea
