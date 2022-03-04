@@ -11,6 +11,7 @@ import { updateFile } from "./updateFile.js";
 import { deleteFile } from "./deleteFile.js";
 import { log } from "./logger.js";
 import { exit } from "process";
+import { executionAsyncId } from "async_hooks";
 
 const serverPort = 3000;
 let baseDir = "scratchPad";
@@ -414,16 +415,17 @@ function processFormSubmissionRequest(req, res, postParams) {
       console.log(`--- End form-submission Case Update ---`);
       break;
     case "Append":
-      console.log(`--- Begin Case "Update" ---`);
+      console.log(`--- Begin Case "Append" ---`);
       if (fs.existsSync(`${baseDir}/${fileName}`)) {
         console.log(`${baseDir}/${fileName} Exists!`);
-        //renderUpdateFileResponse(req, res, fileName);
+        //renderAppendFileResponse(req, res, fileName);
         renderPages(req, res, "appendFile", fileName, null);
       } else {
         console.log(`${baseDir}/File "${fileName}" Does not exist!`);
         renderErrorPage(req, res, `File "${fileName}" Does Not Exist!`);
       }
-      console.log(`--- End form-submission Case Update ---`);
+      console.log(`--- End form-submission Case Append ---`);
+      break;
     case "Delete":
       console.log(`--- Begin Case "Delete" ---`);
       // Delete file then render index page
