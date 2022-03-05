@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,22 +8,41 @@
     <title>About</title>
     <link rel="stylesheet" href="styles/aboutStyle.css">
 </head>
+
 <body>
-    <h1>Node File System Exercise</h1>
-    <p>
-        This exercise demonstrates the use of <code>Node.js</code> <code>fs</code>
-         module using asynchronuos calls to <code>fs.readDirs()</code>,
-         <code>fs.readFile()</code>, <code>fs.writeFile()</code>, 
-         <code>fs.appendFile()</code> and <code>fs.unlink()</code>. The response
-         screens are presented after the promise is fulfilled.
-    </p>
-    <p>
-        The index screen displays all of the file names in the "scratchPad" 
-        directory. The user can then enter a file name and select the 
-        appropriate option from the drop down list 
-        ("READ, CREATE, UPDATE, APPEND, DELETE"). A response screen is presented
-        for each type of operation except DELETE. Once the appropriate file operation
-        has completed the user will be redirected back to the index page.
-    </p>
+    <div id="container" class="container">
+        <div>
+            <h1 class="center">Node File System Exercise</h1>
+            <p>
+                This exercise demonstrates the use of <code>Node.js</code> <code>fs</code>
+                module using asynchronuos calls to
+            <ul>
+                <li><code>fs.readDirs()</code></li>
+                <li><code>fs.readFile()</code></li>
+                <li><code>fs.writeFile()</code></li>
+                <li><code>fs.appendFile()</code></li>
+                <li><code>fs.unlink()</code></li>
+            </ul>
+            The response
+            screens are presented after the promise is fulfilled.
+            </p>
+            <p>
+                The index screen displays all of the file names in the "scratchPad"
+                directory. The user can then enter a file name and select the
+                appropriate option from the drop down list
+            <ul>
+                <li>READ</li>
+                <li>ADD</li>
+                <li>UPDATE</li>
+                <li>APPEND</li>
+                <li>DELETE</li>
+            </ul>
+            A response screen is presented
+            for each type of operation except DELETE. Once the appropriate file operation
+            has completed the user will be redirected back to the index page.
+            </p>
+        </div>
+    </div>
 </body>
+
 </html>
