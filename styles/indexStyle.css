@@ -40,9 +40,9 @@ textarea {
 
 .submit {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     margin-top: 2rem;
-    align-items: center;
+    justify-content: center;
 }
 
 input { 
@@ -76,4 +76,13 @@ label {
     width: 8rem;
     height: 2.5rem;
     font-size: 1.5rem;
+    margin-right: 1rem;
+}
+
+#about-button {
+    background-color: lightblue;
+    width: 8rem;
+    height: 2.5rem;
+    font-size: 1.5rem;
+    margin-left: 1rem;
 }
