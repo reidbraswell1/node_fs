@@ -1,62 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Node FS</title>
-    <link rel="stylesheet" href="styles/indexStyle.css" />
-  </head>
-  <body>
-    <div class="container">
-      <div>
-        <h1>Node File System Exercise</h1>
-        <div class="directory">
-          <label for="file-directory">Directory Listing: <span class="red">"<%=dirPath%>"</span></label>
-          <textarea
-            disabled="true"
-            name="file-directory"
-            id="file-directory"
-            cols="30"
-            rows="8"
-          >
-<%=dirList%></textarea
-          >
-        </div>
-        <form class="form" action="/form-submission" method="POST">
-          <div class="file-name">
-            <label for="file-name">File Name</label>
-            <input type="text" id="file-name" name="file-name" required />
-          </div>
-          <div class="file-action">
-            <label for="file-action">Action</label>
-            <select name="file-action" id="file-action" required>
-              <option value="">Select</option>
-              <option value="Add">Add</option>
-              <option value="Update">Update</option>
-              <option value="Append">Append</option>
-              <option value="Delete">Delete</option>
-              <option value="Read">Read</option>
-            </select>
-          </div>
-          <div id="file-contents-container" class="file-contents">
-            <label for="file-contents">File Contents</label>
-            <textarea
-              name="file-contents"
-              id="file-contents"
-              cols="30"
-              rows="10"
-            >
-<%=fileContents%> </textarea
-            >
-          </div>
-          <div class="submit">
-            <button id="submit-button" type="submit" value="Submit">
-              Submit
-            </button>
-          </div>
-        </form>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Node FS</title>
+  <link rel="stylesheet" href="styles/indexStyle.css" />
+</head>
+
+<body>
+  <div class="container">
+    <div>
+      <h1>Node File System Exercise</h1>
+      <div class="directory">
+        <label for="file-directory">Directory Listing: <span class="red">"<%=dirPath%>"</span></label>
+        <textarea disabled="true" name="file-directory" id="file-directory" cols="30" rows="8">
+<%=dirList%></textarea>
       </div>
+      <form class="form" action="/form-submission" method="POST">
+        <div class="file-name">
+          <label for="file-name">File Name</label>
+          <input type="text" id="file-name" name="file-name" required />
+        </div>
+        <div class="file-action">
+          <label for="file-action">Action</label>
+          <select name="file-action" id="file-action" required>
+            <option value="">Select</option>
+            <option value="Add">Add</option>
+            <option value="Update">Update</option>
+            <option value="Append">Append</option>
+            <option value="Delete">Delete</option>
+            <option value="Read">Read</option>
+          </select>
+        </div>
+        <div id="file-contents-container" class="file-contents">
+          <label for="file-contents">File Contents</label>
+          <textarea name="file-contents" id="file-contents" cols="30" rows="10">
+<%=fileContents%> </textarea>
+        </div>
+        <div class="submit">
+          <button id="submit-button" type="submit" value="Submit">
+            Submit
+          </button>
+          <button id="about-button" type="button" onclick="window.location.href='/about'">About</button>
+        </div>
+      </form>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
