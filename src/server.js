@@ -73,6 +73,12 @@ export const server = http.createServer((req, res) => {
         serveStyleSheets(req, res, "indexStyle.css");
         console.log(`--- End Case ${urlToRoute} Route ---`);
         break;
+      case "/styles/aboutStyle.css":
+        console.log(`--- Begin Case ${urlToRoute} Route ---`);
+        log(req.method, req.url, res.statusCode);
+        serveStyleSheets(req, res, "aboutStyle.css");
+        console.log(`--- End Case ${urlToRoute} Route ---`);
+        break;
       case "/styles/readFileStyle.css":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
         log(req.method, req.url, res.statusCode);
@@ -375,8 +381,7 @@ function serveStyleSheets(req, res, stylesheet) {
       try {
         let css = fs.readFileSync(`./styles/aboutStyle.css`, "utf-8");
         res.write(css);
-      }
-      catch {
+      } catch {
         res.emit("error", error.toString());
       }
     case "addFileStyle.css":
@@ -411,7 +416,7 @@ function serveStyleSheets(req, res, stylesheet) {
         res.emit("error", error.toString());
       }
       break;
-    }
+  }
   res.end();
   console.log(`---End Function serveStyleSheets() ---`);
 }
