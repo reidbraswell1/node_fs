@@ -371,6 +371,14 @@ function serveStyleSheets(req, res, stylesheet) {
         res.emit("error", error.toString());
       }
       break;
+    case "aboutStyle.css":
+      try {
+        let css = fs.readFileSync(`./styles/aboutStyle.css`, "utf-8");
+        res.write(css);
+      }
+      catch {
+        res.emit("error", error.toString());
+      }
     case "addFileStyle.css":
       try {
         let css = fs.readFileSync(`./styles/addFileStyle.css`, "utf-8");
