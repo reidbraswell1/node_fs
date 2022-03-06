@@ -300,13 +300,13 @@ function renderPages(req, res, page, fileName, err) {
       console.log(`--- Begin Case "addFile" ---`);
       try {
         const template = fs.readFileSync(`./views/addFile.ejs`, "utf-8");
+        let html = ejs.render(template, {
+          fileName: fileName,
+        });
+        res.end(html);
       } catch (error) {
         res.emit("error", error.toString());
       }
-      let html = ejs.render(template, {
-        fileName: fileName,
-      });
-      res.end(html);
       console.log(`--- End Case "addFile" ---`);
       break;
     }
@@ -505,7 +505,7 @@ function processFormSubmissionAddFileRequest(req, res, postParams) {
   console.log(`File Name = '${fileName}'`);
   let fileContents = postParams.get("file-contents");
   console.log(`File Contents = ${fileContents}`);
-  createFile(`${baseDir}/${fileName}`, fileContents)
+  createFile(`${baseDir}/${fileName}`, `${fileContents}\n`)
     .then(function (message) {
       res.writeHead(302, {
         location: "/",
@@ -553,8 +553,8 @@ function processFormSubmissionAppendFileRequest(req, res, postParams) {
   let fileName = postParams.get("file-name");
   console.log(`File Name = ${fileName}`);
   let fileContents = postParams.get("file-contents");
-  console.log(`File Contents = ${fileContents}\n`);
-  appendFile(`${baseDir}/${fileName}`, fileContents)
+  console.log(`File Contents = ${fileContents}`);
+  appendFile(`${baseDir}/${fileName}`, `${fileContents}\n`)
     .then(function (message) {
       console.log(`--- Append File Return Message: ${message} ---`);
       res.writeHead(302, {
