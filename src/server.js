@@ -1,7 +1,7 @@
 //const http = require("http");
 import http from "http";
 import ejs from "ejs";
-import fs, { readFileSync } from "fs";
+import fs, { read, readFileSync } from "fs";
 import { readDir } from "./readDirs.js";
 
 import { readFile } from "./readFile.js";
@@ -58,7 +58,7 @@ export const server = http.createServer((req, res) => {
       case "/":
         console.log(`--- Begin Case ${urlToRoute} Route ---`);
         log(req.method, req.url, res.statusCode);
-        renderHomePage(req, res);
+        renderPages(req, res, "index");
         console.log(`--- End Case ${urlToRoute} Route ---`);
         break;
       case "/about":
@@ -259,9 +259,32 @@ function renderHomePage(req, res, error) {
 function renderPages(req, res, page, fileName, err) {
   console.log(`--- Begin Function renderPages() ---`);
   switch (page) {
-    case "index": {
+    case "index":
+      console.log(`--- Begin Case "index" ---`);
+      try {
+        const template = fs.readFileSync(`./views/index.ejs`, "utf-8");
+        readDir(baseDir)
+          .then(function (message) {
+            console.log("here 55");
+            // Omit "Read Directories: " text
+            let listing = message.substring(message.indexOf(":") + 2);
+            // Replace all commas with new lines
+            listing = listing.replace(/,/g, "\n");
+            let html = ejs.render(template, {
+              dirPath: baseDir,
+              dirList: listing
+            });
+            res.writeHead(200, { "Content-Type": "text/html" });
+            res.end(html);
+          })
+          .catch(function (error) {
+            res.emit("error", error.toString());
+          });
+      } catch (error) {
+        res.emit("error", error.toString());
+      }
+      console.log(`--- End Case "index" ---`);
       break;
-    }
     case "about":
       console.log(`--- Begin Case "about" ---`);
       try {
