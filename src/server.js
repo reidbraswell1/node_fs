@@ -221,6 +221,7 @@ server.listen(serverPort, function (callback) {
 });
 console.log(`Server running on port ${server.address().port}`);
 
+/*
 function renderHomePage(req, res, error) {
   const template = fs.readFileSync(`./views/index.ejs`, "utf-8");
   readDir(baseDir)
@@ -251,6 +252,7 @@ function renderHomePage(req, res, error) {
     })
     .catch(function (error) {});
 }
+*/
 
 // Render Pages Function
 // This function will render an ejs template based on the
@@ -272,16 +274,17 @@ function renderPages(req, res, page, fileName, err) {
             listing = listing.replace(/,/g, "\n");
             let html = ejs.render(template, {
               dirPath: baseDir,
-              dirList: listing
+              dirList: listing,
             });
             res.writeHead(200, { "Content-Type": "text/html" });
             res.end(html);
           })
           .catch(function (error) {
+            console.log(`Error "index reder": ${error.toString()}`);
             res.emit("error", error.toString());
           });
       } catch (error) {
-        res.emit("error", error.toString());
+        res.emit("error", `Error "index reder": ${error.toString()}`);
       }
       console.log(`--- End Case "index" ---`);
       break;
@@ -292,8 +295,10 @@ function renderPages(req, res, page, fileName, err) {
         res.writeHead(200, { "Content-Type": "text/html" });
         res.end(htmlFile);
       } catch (error) {
-        res.emit("error", error.toString());
+        console.log(`Error "about render": ${error.toString()}`);
+        res.emit("error", `Error "about render": ${error.toString()}`);
       }
+      console.log(`--- End Case "about" ---`);
       break;
     case "readFile": {
       console.log(`--- Begin Case "readFile" ---`);
@@ -309,9 +314,8 @@ function renderPages(req, res, page, fileName, err) {
             res.end(html);
           })
           .catch(function (error) {
-            console.log(
-              "An error occurred in function renderReadFileResponse readFile catch"
-            );
+            console.log(`Error "readFile render": ${error.toString()}`);
+            res.emit("error", `Error "readFile render":${error.toString()}`);
           });
       } catch (error) {
         res.emit("error", error.toString());
@@ -328,12 +332,14 @@ function renderPages(req, res, page, fileName, err) {
         });
         res.end(html);
       } catch (error) {
-        res.emit("error", error.toString());
+        console.log(`Error "addFile render": ${error.toString()}`);
+        res.emit("error", `Error "addFile render": ${error.toString()}`);
       }
       console.log(`--- End Case "addFile" ---`);
       break;
     }
     case "updateFile":
+      console.log(`--- Begin Case "updateFile" ---`);
       try {
         const template = fs.readFileSync(`./views/updateFile.ejs`, "utf-8");
         readFile(`${baseDir}/${fileName}`)
@@ -346,19 +352,16 @@ function renderPages(req, res, page, fileName, err) {
             res.end(html);
           })
           .catch(function (error) {
-            console.log(
-              "An error occurred in function renderReadFileResponse readFile catch"
-            );
-            res.emit(
-              "error",
-              "An error occurred in function renderUpdateFileResponse readFile."
-            );
+            console.log(`Error "updateFile render": ${error.toString()}`);
+            res.emit("error", `Error "updateFile render": ${error.toString()}`);
           });
       } catch (error) {
-        res.emit("error", error.toString());
+        res.emit("error", `Error "updateFile render": ${error.toString()}`);
       }
+      console.log(`--- End Case "updateFile" ---`);
       break;
     case "appendFile":
+      console.log(`--- Begin Case "appendFile" ---`);
       try {
         const template = fs.readFileSync(`./views/appendFile.ejs`, "utf-8");
         readFile(`${baseDir}/${fileName}`)
@@ -371,15 +374,16 @@ function renderPages(req, res, page, fileName, err) {
             res.end(html);
           })
           .catch(function (error) {
-            console.log(
-              "An error occurred in function renderReadFileResponse readFile catch"
-            );
+            console.log(`Error "appendFile render": ${error.toString()}`);
           });
       } catch (error) {
-        res.emit("error", error.toString());
+        res.emit("error", `Error appendFile render: ${error.toString()}`);
       }
+      console.log(`--- End Case "appendFile" ---`);
       break;
     case "deleteFile":
+      console.log(`--- Begin Case "deleteFile" ---`);
+      console.log(`--- End Case "deleteFile" ---`);
       break;
   }
   console.log(`--- End Function renderPages() ---`);
@@ -393,52 +397,64 @@ function serveStyleSheets(req, res, stylesheet) {
   res.writeHead(200, { "Content-Type": "text/css" });
   switch (stylesheet) {
     case "indexStyle.css":
+      console.log(`--- Begin case "indexStyle.css" ---`);
       try {
         let css = fs.readFileSync(`./styles/indexStyle.css`, "utf-8");
         res.write(css);
       } catch (error) {
         res.emit("error", error.toString());
       }
+      console.log(`--- End case "indexStyle.css" ---`);
       break;
     case "aboutStyle.css":
+      console.log(`--- Begin case "aboutStyle.css" ---`);
       try {
         let css = fs.readFileSync(`./styles/aboutStyle.css`, "utf-8");
         res.write(css);
       } catch (error) {
         res.emit("error", error.toString());
       }
+      console.log(`--- End case "aboutStyle.css" ---`);
       break;
     case "addFileStyle.css":
+      console.log(`--- End case "addFileStyle.css" ---`);
       try {
         let css = fs.readFileSync(`./styles/addFileStyle.css`, "utf-8");
         res.write(css);
       } catch (error) {
         res.emit("error", error.toString());
       }
+      console.log(`--- End case "addFileStyle.css" ---`);
       break;
     case "readFileStyle.css":
+      console.log(`--- Begin case "readFileStyle.css" ---`);
       try {
         let css = fs.readFileSync(`./styles/readFileStyle.css`, "utf-8");
         res.write(css);
       } catch (error) {
         res.emit("error", error.toString());
       }
+      console.log(`--- End case "readFileStyle.css" ---`);
       break;
     case "updateFileStyle.css":
+      console.log(`--- Begin case "updateFileStyle.css" ---`);
       try {
         let css = fs.readFileSync(`./styles/updateFileStyle.css`, "utf-8");
         res.write(css);
       } catch (error) {
         res.emit("error", error.toString());
       }
+      console.log(`--- End case "updateFileStyle.css" ---`);
       break;
     case "errorStyle.css":
+      console.log(`--- Begin case "errorFileStyle.css" ---`);
       try {
         let css = fs.readFileSync(`./styles/errorStyle.css`, "utf-8");
         res.write(css);
       } catch (error) {
         res.emit("error", error.toString());
       }
+      console.log(`--- End case "errorFileStyle.css" ---`);
       break;
   }
   res.end();
@@ -463,7 +479,7 @@ function processFormSubmissionRequest(req, res, postParams) {
         console.log(`${baseDir}/File ${fileName} Does not exist!`);
         renderErrorPage(req, res, `File "${fileName}" Not Found!`);
       }
-      console.log(`--- End form-submission Case Read ---`);
+      console.log(`--- End Case "Read" ---`);
       break;
     case "Add":
       // Add file then render index page
@@ -473,10 +489,9 @@ function processFormSubmissionRequest(req, res, postParams) {
         renderErrorPage(req, res, `File ${fileName} Already Exists!`);
       } else {
         console.log(`${baseDir}/${fileName} Does not exist!`);
-        //renderAddFileResponse(req, res, fileName);
         renderPages(req, res, "addFile", fileName, null);
       }
-      console.log(`--- End form-submission Case Add ---`);
+      console.log(`--- End Case Add ---`);
       break;
     case "Update":
       // Update file then render index page
@@ -490,19 +505,18 @@ function processFormSubmissionRequest(req, res, postParams) {
         console.log(`${baseDir}/File "${fileName}" Does not exist!`);
         renderErrorPage(req, res, `File "${fileName}" Does Not Exist!`);
       }
-      console.log(`--- End form-submission Case Update ---`);
+      console.log(`--- End Case "Update" ---`);
       break;
     case "Append":
       console.log(`--- Begin Case "Append" ---`);
       if (fs.existsSync(`${baseDir}/${fileName}`)) {
         console.log(`${baseDir}/${fileName} Exists!`);
-        //renderAppendFileResponse(req, res, fileName);
         renderPages(req, res, "appendFile", fileName, null);
       } else {
         console.log(`${baseDir}/File "${fileName}" Does not exist!`);
         renderErrorPage(req, res, `File "${fileName}" Does Not Exist!`);
       }
-      console.log(`--- End form-submission Case Append ---`);
+      console.log(`--- End Case "Append" ---`);
       break;
     case "Delete":
       console.log(`--- Begin Case "Delete" ---`);
@@ -514,11 +528,11 @@ function processFormSubmissionRequest(req, res, postParams) {
         console.log(`${baseDir}/File "${fileName}" Does not exist!`);
         renderErrorPage(req, res, `File "${fileName}" Does Not Exist!`);
       }
-      console.log(`--- End form-submission Case Delete ---`);
+      console.log(`--- End Case "Delete" ---`);
       break;
   }
   console.log(`${selectOption}`);
-  console.log(`--- End Function processPostRequest() ---`);
+  console.log(`--- End Function processFormSubmissionRequest() ---`);
 }
 
 // Function to process an add file request
