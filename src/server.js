@@ -397,64 +397,64 @@ function serveStyleSheets(req, res, stylesheet) {
   res.writeHead(200, { "Content-Type": "text/css" });
   switch (stylesheet) {
     case "indexStyle.css":
-      console.log(`--- Begin case "indexStyle.css" ---`);
+      console.log(`--- Beagin Case "indexStyle.css" ---`);
       try {
         let css = fs.readFileSync(`./styles/indexStyle.css`, "utf-8");
         res.write(css);
       } catch (error) {
         res.emit("error", error.toString());
       }
-      console.log(`--- End case "indexStyle.css" ---`);
+      console.log(`--- End Case "indexStyle.css" ---`);
       break;
     case "aboutStyle.css":
-      console.log(`--- Begin case "aboutStyle.css" ---`);
+      console.log(`--- Beagin Case "aboutStyle.css" ---`);
       try {
         let css = fs.readFileSync(`./styles/aboutStyle.css`, "utf-8");
         res.write(css);
       } catch (error) {
         res.emit("error", error.toString());
       }
-      console.log(`--- End case "aboutStyle.css" ---`);
+      console.log(`--- End Case "aboutStyle.css" ---`);
       break;
     case "addFileStyle.css":
-      console.log(`--- End case "addFileStyle.css" ---`);
+      console.log(`--- End Case "addFileStyle.css" ---`);
       try {
         let css = fs.readFileSync(`./styles/addFileStyle.css`, "utf-8");
         res.write(css);
       } catch (error) {
         res.emit("error", error.toString());
       }
-      console.log(`--- End case "addFileStyle.css" ---`);
+      console.log(`--- End Case "addFileStyle.css" ---`);
       break;
     case "readFileStyle.css":
-      console.log(`--- Begin case "readFileStyle.css" ---`);
+      console.log(`--- Beagin Case "readFileStyle.css" ---`);
       try {
         let css = fs.readFileSync(`./styles/readFileStyle.css`, "utf-8");
         res.write(css);
       } catch (error) {
         res.emit("error", error.toString());
       }
-      console.log(`--- End case "readFileStyle.css" ---`);
+      console.log(`--- End Case "readFileStyle.css" ---`);
       break;
     case "updateFileStyle.css":
-      console.log(`--- Begin case "updateFileStyle.css" ---`);
+      console.log(`--- Beagin Case "updateFileStyle.css" ---`);
       try {
         let css = fs.readFileSync(`./styles/updateFileStyle.css`, "utf-8");
         res.write(css);
       } catch (error) {
         res.emit("error", error.toString());
       }
-      console.log(`--- End case "updateFileStyle.css" ---`);
+      console.log(`--- End Case "updateFileStyle.css" ---`);
       break;
     case "errorStyle.css":
-      console.log(`--- Begin case "errorFileStyle.css" ---`);
+      console.log(`--- Beagin Case "errorFileStyle.css" ---`);
       try {
         let css = fs.readFileSync(`./styles/errorStyle.css`, "utf-8");
         res.write(css);
       } catch (error) {
         res.emit("error", error.toString());
       }
-      console.log(`--- End case "errorFileStyle.css" ---`);
+      console.log(`--- End Case "errorFileStyle.css" ---`);
       break;
   }
   res.end();
