@@ -49,21 +49,28 @@
 - The timestamp can be any format you like, but it a least should show the time of day that the request was made
 
 ### Additional Features
+  This exercise demonstrates the use of ```Node.js``` ```fs```
+module using asynchronuos calls to:
 
-In this exercise additional features have been added to provide for easier testing.
-An HTML form is used when responding the `localhost:3000/` path that prompts the user
-to enter name, favorite programming languages, favorite hobbies and an interesting fact
-about themselves. Four submit buttons are provided to submit a POST or GET for either of 
-the path's `localhost:3000/about` or `localhost:3000/echo`. The reponse will be in
-`appication/json` for both path's. In addition POSTMAN may be used for testing (A JSON file 
-is provided for testing `node_http.postman_collection.json`). At minimum
-the following keys must be used in the body or as parameters in the url string when using 
-postman.
+  * ```fs.readDirs()```
+  * ```fs.readFile()```
+  * ```fs.writeFile()```
+  * ```fs.appendFile()```
+  * ```fs.unlink()```
 
-- name
-- favorite-programinng-languages
-- favorite-hobbies
-- interesting-fact
+The response screens are presented after the promise is fulfilled.
+
+The index screen displays all of the file names in the "scratchPad"
+directory. The user can then enter a file name and select the
+appropriate option from the drop down list
+  * READ
+  * ADD
+  * UPDATE
+  * APPEND
+  * DELETE
+            
+A response screen is presented
+for each type of operation except DELETE. Once the appropriate file operation has completed the user will be redirected back to the index page.
 
 Webpack is being used to make a distributable. To build the project run the following:
 
