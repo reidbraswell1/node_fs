@@ -64,6 +64,7 @@ select {
 
 label {
     align-self: flex-start;
+    margin-top: .5rem;
 }
 
 .file-contents {
