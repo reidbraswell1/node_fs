@@ -426,6 +426,16 @@ function serveStyleSheets(req, res, stylesheet) {
       }
       console.log(`--- End Case "addFileStyle.css" ---`);
       break;
+    case "appendFileStyle.css":
+      console.log(`--- End Case "appendFileStyle.css" ---`);
+      try {
+        let css = fs.readFileSync(`./styles/appendFileStyle.css`, "utf-8");
+        res.write(css);
+      } catch (error) {
+        res.emit("error", error.toString());
+      }
+      console.log(`--- End Case "appendFileStyle.css" ---`);
+      break;
     case "readFileStyle.css":
       console.log(`--- Beagin Case "readFileStyle.css" ---`);
       try {
