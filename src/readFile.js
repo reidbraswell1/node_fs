@@ -1,11 +1,14 @@
 //const fs = require("fs");
 import fs from "fs";
 
-// Async function returns a promise
+/*   
+ *   Helper funtion that calls fs.append. This function
+ *   returns a promise that is resolved if fs.append does
+ *   not return an error. If an error is returned then the
+ *   promise is rejected. It is also rejected if the file does
+ *   not exist.
+ */
 export const readFile = function (fileName) {
-  // Return a promise that is resolved if when fs.readFile returns data read from 
-  // the file but rejected if the file does not exist or there is a problem 
-  // reading the file.
   return new Promise(function (resolve, reject) {
     if (fs.existsSync(fileName)) {
       console.log(`${fileName} exists. Reading file.`);
