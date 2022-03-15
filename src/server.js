@@ -221,43 +221,13 @@ server.listen(serverPort, function (callback) {
 });
 console.log(`Server running on port ${server.address().port}`);
 
-/*
-function renderHomePage(req, res, error) {
-  const template = fs.readFileSync(`./views/index.ejs`, "utf-8");
-  readDir(baseDir)
-    .then(function (message) {
-      // Omit "Read Directories: " text
-      let listing = message.substring(message.indexOf(":") + 2);
-      // Replace all commas with new lines
-      listing = listing.replace(/,/g, "\n");
 
-      readFile(`${baseDir}/HelloWorld.txt`)
-        .then(function (message) {
-          let fileContents = message;
-          let html = ejs.render(template, {
-            dirPath: baseDir,
-            dirList: listing,
-            fileContents: message,
-            errorMessage: error,
-          });
-          console.log("here" + message);
-          res.end(html);
-        })
-        .catch(function (error) {
-          res.emit("error", error);
-        });
-
-      //      res.write(html)
-      //    res.end()
-    })
-    .catch(function (error) {});
-}
-*/
-
-// Render Pages Function
-// This function will render an ejs template based on the
-// page name passed to it. fileName is required but err can
-// be null or spaces.
+/*  
+ * Render Pages Function
+ * This function will render an ejs template based on the
+ * page name passed to it. fileName is required but err can
+ * be null or spaces.
+ */
 function renderPages(req, res, page, fileName, err) {
   console.log(`--- Begin Function renderPages() ---`);
   switch (page) {
@@ -389,9 +359,11 @@ function renderPages(req, res, page, fileName, err) {
   console.log(`--- End Function renderPages() ---`);
 }
 
-// Serve stylesheets
-// This function reads stylesheets and writes them back
-// to the requesting url based on the stylesheet variable
+/*
+ * Serve stylesheets
+ * This function reads stylesheets and writes them back
+ * to the requesting url based on the stylesheet variable
+ */
 function serveStyleSheets(req, res, stylesheet) {
   console.log(`---Begin Function serveStyleSheets() ---`);
   res.writeHead(200, { "Content-Type": "text/css" });
@@ -565,9 +537,11 @@ function processFormSubmissionAddFileRequest(req, res, postParams) {
   console.log(`--- End Function processFormSubmissionAddFileRequest() ---`);
 }
 
-// Function to process an update file request
-// User is allowed to overwrite the file with whatever contents
-// they enter in the text area.
+/*
+ *  Function to process an update file request
+ *  User is allowed to overwrite the file with whatever contents
+ *  they enter in the text area.
+ */ 
 function processFormSubmissionUpdateFileRequest(req, res, postParams) {
   console.log(
     `--- Begin Function processFormSubmissionUpdateFileRequest() ---`
@@ -590,9 +564,11 @@ function processFormSubmissionUpdateFileRequest(req, res, postParams) {
   console.log(`--- End Function processFormSubmissionUpdateFileRequest() ---`);
 }
 
-// Function to process an append file request
-// User is allowed to append text to the end of the file with
-// whatever contents they enter in the text area.
+/* 
+ *  Function to process an append file request
+ *  User is allowed to append text to the end of the file with
+ *  whatever contents they enter in the text area.
+ */
 function processFormSubmissionAppendFileRequest(req, res, postParams) {
   console.log(
     `--- Begin Function processFormSubmissionAppendFileRequest() ---`
@@ -615,8 +591,10 @@ function processFormSubmissionAppendFileRequest(req, res, postParams) {
   console.log(`--- End Function processFormSubmissionAppendFileRequest() ---`);
 }
 
-// Function to process a delete file request.
-// file will be deleted then a redirect to the index page.
+/* 
+ *  Function to process a delete file request.
+ *  file will be deleted then a redirect to the index page.
+ */
 function processFormDeleteFileRequest(req, res, postParams) {
   console.log(
     `--- Begin Function processFormSubmissionDeleteFileRequest() ---`
@@ -638,8 +616,9 @@ function processFormDeleteFileRequest(req, res, postParams) {
   console.log(`--- End Function processFormSubmissionDeleteFileRequest() ---`);
 }
 
-// Function to render an error page based on the error
-// in the err variable.
+/*  Function to render an error page based on the error
+ *  in the err variable.
+ */
 function renderErrorPage(req, res, err) {
   console.log(`--- Begin Function renderErrorPage() ---`);
   console.log(err.toString());
