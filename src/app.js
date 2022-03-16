@@ -1,3 +1,7 @@
+/*  This module is the main controlling module.
+ *  It calls all of the test scripts and loads
+ *  the server module.
+ */
 import server from "./server.js";
 import { testCreateFile, testDeleteFile, testReadFile, testAppendFile, testUpdateFile, testReadDirs } from "./test.js";
 
