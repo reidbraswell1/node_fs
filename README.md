@@ -1,5 +1,7 @@
 # Node.js File System Exercise
 
+![Node File System Exercise](/NodeFileSystemExercise.png?raw=true "Employee Data title")
+
 ## Getting Started
 
 1. Open your command line and navigate to your repos directory (if you do not have a repos folder, then you can use mkdir repos to create one)
