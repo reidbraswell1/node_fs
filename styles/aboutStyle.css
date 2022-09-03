@@ -1,3 +1,4 @@
+/* Stylesheet for the about page */
 .container {
     display: flex;
     align-items: center;
@@ -8,4 +9,17 @@
 
 .center {
     text-align: center;
+}
+
+#button-container {
+    display: flex;
+    justify-content: center;
+}
+
+#about-button {
+    background-color: lightblue;
+    width: 15rem;
+    height: 2.5rem;
+    font-size: 1.5rem;
+    margin-top: 2rem;
 }

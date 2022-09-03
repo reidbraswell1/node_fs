@@ -2,9 +2,14 @@
 import fs from "fs";
 import { realpath } from "fs/promises";
 
+/*   
+ *   Helper funtion that calls fs.unlink. This function
+ *   returns a promise that is resolved if fs.unlink does
+ *   not return an error. If an error is returned then the
+ *   promise is rejected. It is also rejected if the file does
+ *   not exist.
+ */
 export function deleteFile(fileName) {
-  // Return a promise that is resolved if when fs.unlink returns without an error.
-  // If an error is returned reject with the error message.
   return new Promise(function (resolve, reject) {
     if (fs.existsSync(fileName)) {
       fs.unlink(fileName, function (err) {
